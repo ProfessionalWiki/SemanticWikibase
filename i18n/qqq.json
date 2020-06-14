@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeroen De Dauw",
+			"Karsten Hoffmeyer"
+		]
+	},
+	"semantic-wb-name": "{{Name}}",
+	"semantic-wb-desc": "{{Desc|name=Network|url=https://github.com/ProfessionalWiki/SemanticWikibase}}"
+}
