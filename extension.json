@@ -4,8 +4,8 @@
 	"version": "0.1.0",
 
 	"author": [
-		"[https://professional.wiki/ Professional.Wiki]",
-		"[https://www.entropywins.wtf/mediawiki Jeroen De Dauw]"
+		"[https://www.entropywins.wtf/mediawiki Jeroen De Dauw]",
+		"[https://professional.wiki/ Professional.Wiki]"
 	],
 
 	"url": "https://github.com/ProfessionalWiki/SemanticWikibase",
@@ -15,7 +15,10 @@
 	"license-name": "GPL-2.0-or-later",
 
 	"requires": {
-		"MediaWiki": ">= 1.31.0"
+		"MediaWiki": ">= 1.31.0",
+		"extensions": {
+			"SemanticMediaWiki": "~3.1"
+		}
 	},
 
 	"MessagesDirs": {
@@ -25,6 +28,7 @@
 	},
 
 	"AutoloadClasses": {
+		"MediaWiki\\Extension\\SemanticWikibase": "src/"
 	},
 
 	"Hooks": {
