@@ -1,5 +1,5 @@
 {
-	"name": "SemanticWikibase",
+	"name": "Semantic Wikibase",
 
 	"version": "0.1.0",
 
@@ -17,7 +17,8 @@
 	"requires": {
 		"MediaWiki": ">= 1.31.0",
 		"extensions": {
-			"SemanticMediaWiki": "~3.1"
+			"SemanticMediaWiki": "~3.1",
+			"WikibaseRepository": "*"
 		}
 	},
 
@@ -27,11 +28,15 @@
 		]
 	},
 
-	"AutoloadClasses": {
-		"MediaWiki\\Extension\\SemanticWikibase": "src/"
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\SemanticWikibase\\": "src/"
 	},
 
 	"Hooks": {
+		"PageContentSaveComplete": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onPageContentSaveComplete",
+		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwInitProperties",
+		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwAddCustomFixedPropertyTables",
+		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwUpdateDataBefore"
 	},
 
 	"manifest_version": 2
