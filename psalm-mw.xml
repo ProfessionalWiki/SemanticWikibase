@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="2"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src/EntryPoints" />
+    </projectFiles>
+	<extraFiles>
+		<directory name="src" />
+		<directory name="../../includes" />
+		<directory name="../../vendor/wikibase" />
+		<directory name="../SemanticMediaWiki/src" />
+		<directory name="../SemanticMediaWiki/includes" />
+		<directory name="../Wikibase/repo/includes" />
+	</extraFiles>
+	<issueHandlers>
+<!--		<MissingPropertyType errorLevel="suppress" />-->
+	</issueHandlers>
+</psalm>

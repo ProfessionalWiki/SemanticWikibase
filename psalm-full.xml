@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="2"
+    errorLevel="1"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -16,12 +16,13 @@
 	<extraFiles>
 		<directory name="../../includes" />
 		<directory name="../../vendor/wikibase" />
+		<directory name="../../vendor/data-values" />
+		<directory name="../../vendor/serialization" />
 		<directory name="../SemanticMediaWiki/src" />
 		<directory name="../SemanticMediaWiki/includes" />
 		<directory name="../Wikibase/repo/includes" />
 	</extraFiles>
 	<issueHandlers>
-		<MissingPropertyType errorLevel="suppress" />
-		<MissingClosureReturnType errorLevel="suppress" />
+		<UndefinedConstant errorLevel="suppress" />
 	</issueHandlers>
 </psalm>

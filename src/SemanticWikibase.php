@@ -14,4 +14,8 @@ class SemanticWikibase {
 		return new FixedProperties();
 	}
 
+	public function getSemanticDataUpdate(): SemanticDataUpdate {
+		return new SemanticDataUpdate();
+	}
+
 }
