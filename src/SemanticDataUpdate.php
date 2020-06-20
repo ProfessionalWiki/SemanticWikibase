@@ -40,21 +40,14 @@ class SemanticDataUpdate {
 	}
 
 	private function storeItem( SemanticData $semanticData, Item $item ): void {
-		$itemId = $item->getId();
+		$builder = new SemanticItemBuilder();
 
-		if ( $itemId === null ) {
-			return;
+		foreach ( $builder->itemToSmwValues( $item ) as $propertyValue ) {
+			$semanticData->addPropertyObjectValue(
+				$propertyValue->getProperty(),
+				$propertyValue->getValue()
+			);
 		}
-
-		$semanticData->addPropertyObjectValue(
-			new DIProperty( '___WIKIBASE_ID' ),
-			new \SMWDIBlob( $itemId->getSerialization() )
-		);
-
-		$semanticData->addPropertyObjectValue(
-			new DIProperty( '___WIKIBASE_LABEL' ),
-			new \SMWDIBlob( $item->getLabels()->getByLanguage( 'en' )->getText() )
-		);
 	}
 
 }
