@@ -15,7 +15,7 @@
 	"license-name": "GPL-2.0-or-later",
 
 	"requires": {
-		"MediaWiki": ">= 1.31.0",
+		"MediaWiki": ">= 1.35.0",
 		"extensions": {
 			"SemanticMediaWiki": "~3.1",
 			"WikibaseRepository": "*"
@@ -33,7 +33,7 @@
 	},
 
 	"Hooks": {
-		"PageContentSaveComplete": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onPageContentSaveComplete",
+		"PageSaveComplete": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onPageSaveComplete",
 		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwInitProperties",
 		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwAddCustomFixedPropertyTables",
 		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwUpdateDataBefore"
