@@ -10,10 +10,15 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="src/EntryPoints" />
         </ignoreFiles>
     </projectFiles>
 	<extraFiles>
 		<directory name="../../includes" />
+		<directory name="../../vendor/wikibase" />
+		<directory name="../SemanticMediaWiki/src" />
+		<directory name="../SemanticMediaWiki/includes" />
+		<directory name="../Wikibase/repo/includes" />
 	</extraFiles>
 	<issueHandlers>
 		<MissingPropertyType errorLevel="suppress" />

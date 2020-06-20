@@ -33,10 +33,9 @@
 	},
 
 	"Hooks": {
-		"PageSaveComplete": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onPageSaveComplete",
-		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwInitProperties",
-		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwAddCustomFixedPropertyTables",
-		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\HookHandlers::onSmwUpdateDataBefore"
+		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwInitProperties",
+		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwAddCustomFixedPropertyTables",
+		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwUpdateDataBefore"
 	},
 
 	"manifest_version": 2
