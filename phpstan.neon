@@ -1,0 +1,13 @@
+parameters:
+	level: 1
+	paths:
+		- src
+		- tests
+	scanDirectories:
+		- ../../includes
+		- ../../vendor
+		- ../SemanticMediaWiki/includes
+		- ../SemanticMediaWiki/src
+		- ../Wikibase/repo
+	ignoreErrors:
+		- '#Constant .+ not found#'
