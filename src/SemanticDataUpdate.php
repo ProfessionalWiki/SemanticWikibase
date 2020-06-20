@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use SMW\DIProperty;
+use MediaWiki\Extension\SemanticWikibase\Translation\SemanticItemBuilder;
 use SMW\SemanticData;
 use Title;
 use Wikibase\DataModel\Entity\Item;
@@ -40,7 +40,7 @@ class SemanticDataUpdate {
 	}
 
 	private function storeItem( SemanticData $semanticData, Item $item ): void {
-		$builder = new SemanticItemBuilder();
+		$builder = new SemanticItemBuilder( $semanticData->getSubject() );
 
 		foreach ( $builder->itemToSmwValues( $item ) as $propertyValue ) {
 			$semanticData->addPropertyObjectValue(
