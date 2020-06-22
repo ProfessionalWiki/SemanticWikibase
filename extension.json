@@ -29,7 +29,8 @@
 	},
 
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extension\\SemanticWikibase\\": "src/"
+		"MediaWiki\\Extension\\SemanticWikibase\\": "src/",
+		"MediaWiki\\Extension\\SemanticWikibase\\Tests\\": "tests/"
 	},
 
 	"Hooks": {

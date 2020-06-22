@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\SemanticWikibase;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DataValues\StringValue;
 use SMW\PropertyRegistry;
+use Wikibase\Repo\WikibaseRepo;
 
 class FixedProperties {
 
@@ -35,6 +36,16 @@ class FixedProperties {
 				$id,
 				$definition['type'],
 				$definition['label'],
+				true,
+				false
+			);
+		}
+
+		foreach ( WikibaseRepo::getDefaultInstance()->getStore()->getPropertyInfoLookup()->getAllPropertyInfo() as $id => $propertyInfo ) {
+			$propertyRegistry->registerProperty(
+				'___SWB_' . $id,
+				StringValue::TYPE_ID,
+				$id,
 				true,
 				false
 			);
