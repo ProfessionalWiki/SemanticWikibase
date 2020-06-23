@@ -12,8 +12,7 @@ use SMW\Store;
 class HookHandlers {
 
 	public static function onSmwInitProperties( PropertyRegistry $propertyRegistry ): void {
-		SemanticWikibase::getGlobalInstance()->getFixedProperties()
-			->register( $propertyRegistry );
+		SemanticWikibase::getGlobalInstance()->registerProperties( $propertyRegistry );
 	}
 
 	public static function onSmwAddCustomFixedPropertyTables( array &$customFixedProperties, array &$fixedPropertyTablePrefix ): void {

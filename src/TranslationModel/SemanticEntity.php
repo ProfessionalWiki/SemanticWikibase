@@ -4,15 +4,21 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
 
+use SMW\DIProperty;
+use SMWDataItem;
+
 class SemanticEntity {
 
-	private array $propertyValuePairs;
+	private array $propertyValuePairs = [];
 
-	/**
-	 * @param PropertyValuePair[] $propertyValuePairs
-	 */
-	public function __construct( array $propertyValuePairs ) {
-		$this->propertyValuePairs = $propertyValuePairs;
+	public function __construct() {
+	}
+
+	public function addPropertyValue( string $propertyId, SMWDataItem $dataItem ) {
+		$this->propertyValuePairs[] = new PropertyValuePair(
+			new DIProperty( $propertyId ),
+			$dataItem
+		);
 	}
 
 	/**

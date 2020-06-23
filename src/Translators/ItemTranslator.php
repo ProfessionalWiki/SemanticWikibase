@@ -5,51 +5,54 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use DataValues\StringValue;
-use MediaWiki\Extension\SemanticWikibase\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\PropertyValuePair;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
 use SMW\DataValueFactory;
+use SMW\DataValues\MonolingualTextValue;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
+use SMWDataItem;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
+use Wikibase\DataModel\Term\Term;
 
 class ItemTranslator {
+
+	private $subject;
 
 	public function __construct() {
 	}
 
-	/**
-	 * @param Item $item
-	 *
-	 * @return SemanticEntity
-	 */
 	public function itemToSmwValues( Item $item ): SemanticEntity {
+		$semanticEntity = new SemanticEntity();
+
 		$itemId = $item->getId();
 
 		if ( $itemId === null ) {
-			return new SemanticEntity( [] );
+			return $semanticEntity;
 		}
 
-		$propertyValues = [];
+		$this->subject = DIWikiPage::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM );
 
-		$propertyValues[] = new PropertyValuePair(
-			new DIProperty( FixedProperties::ID ),
+		$semanticEntity->addPropertyValue(
+			FixedProperties::ID,
 			new \SMWDIBlob( $itemId->getSerialization() )
 		);
 
-		$termTranslator = new TermTranslator(
-			DataValueFactory::getInstance(),
-			DIWikiPage::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM )
-		);
-
 		foreach ( $item->getLabels() as $label ) {
-			$propertyValues[] = $termTranslator->translateLabel( $label );
+			$semanticEntity->addPropertyValue(
+				FixedProperties::LABEL,
+				$this->translateTerm( $label, FixedProperties::newLabel()->getId() )
+			);
 		}
 
 		foreach ( $item->getDescriptions() as $description ) {
-			$propertyValues[] = $termTranslator->translateDescription( $description );
+			$semanticEntity->addPropertyValue(
+				FixedProperties::DESCRIPTION,
+				$this->translateTerm( $description, FixedProperties::newDescription()->getId() )
+			);
 		}
 
 		foreach ( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] )->getMainSnaks() as $snak ) {
@@ -57,16 +60,25 @@ class ItemTranslator {
 				$value = $snak->getDataValue();
 
 				if ( $value instanceof StringValue ) {
-					$propertyValues[] = new PropertyValuePair(
-						new DIProperty( '___SWB_' . $snak->getPropertyId()->getSerialization() ),
+					$semanticEntity->addPropertyValue(
+						UserDefinedProperties::idFromWikibaseProperty( $snak->getPropertyId() ),
 						new \SMWDIBlob( $value->getValue() )
 					);
 				}
-
 			}
 		}
 
-		return new SemanticEntity( $propertyValues );
+		return $semanticEntity;
+	}
+
+	private function translateTerm( Term $term, string $propertyId ): SMWDataItem {
+		return DataValueFactory::getInstance()->newDataValueByType(
+			MonolingualTextValue::TYPE_ID,
+			$term->getText() . '@' . $term->getLanguageCode(),
+			false,
+			new DIProperty( $propertyId ),
+			$this->subject
+		)->getDataItem();
 	}
 
 }
