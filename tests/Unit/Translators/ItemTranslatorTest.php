@@ -35,9 +35,7 @@ class ItemTranslatorTest extends TestCase {
 		$item = new Item( new ItemId( 'Q1' ) );
 
 		$this->assertEquals(
-			[
-				new \SMWDIBlob( 'Q1' )
-			],
+			[ new \SMWDIBlob( 'Q1' ) ],
 			$this->translate( $item )->getDataItemsForProperty( FixedProperties::ID )
 		);
 	}
@@ -50,8 +48,28 @@ class ItemTranslatorTest extends TestCase {
 		) );
 
 		$this->assertEquals(
+			[ new \SMWDIBlob( 'Hello there' ) ],
+			$this->translate( $item )->getDataItemsForProperty( '___SWB_P1' )
+		);
+	}
+
+	public function testMultipleStatementsForOneProperty() {
+		$item = new Item( new ItemId( 'Q1' ) );
+
+		$item->getStatements()->addNewStatement( new PropertyValueSnak(
+			new PropertyId( 'P1' ),
+			new StringValue( 'Hello there' )
+		) );
+
+		$item->getStatements()->addNewStatement( new PropertyValueSnak(
+			new PropertyId( 'P1' ),
+			new StringValue( 'fellow sentient' )
+		) );
+
+		$this->assertEquals(
 			[
-				new \SMWDIBlob( 'Hello there' )
+				new \SMWDIBlob( 'Hello there' ),
+				new \SMWDIBlob( 'fellow sentient' )
 			],
 			$this->translate( $item )->getDataItemsForProperty( '___SWB_P1' )
 		);
