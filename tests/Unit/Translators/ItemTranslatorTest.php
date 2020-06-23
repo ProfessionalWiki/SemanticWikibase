@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
+namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
 
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;

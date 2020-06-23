@@ -10,6 +10,7 @@ use SMWDataItem;
 class SemanticEntity {
 
 	private array $propertyValuePairs = [];
+	private array $dataItemsPerProperty = [];
 
 	public function __construct() {
 	}
@@ -19,6 +20,8 @@ class SemanticEntity {
 			new DIProperty( $propertyId ),
 			$dataItem
 		);
+
+		$this->dataItemsPerProperty[$propertyId][] = $dataItem;
 	}
 
 	/**
@@ -26,6 +29,14 @@ class SemanticEntity {
 	 */
 	public function getPropertyValuePairs() {
 		return $this->propertyValuePairs;
+	}
+
+	/**
+	 * @param string $propertyId
+	 * @return SMWDataItem[]
+	 */
+	public function getDataItemsForProperty( string $propertyId ): array {
+		return $this->dataItemsPerProperty[$propertyId] ?? [];
 	}
 
 }
