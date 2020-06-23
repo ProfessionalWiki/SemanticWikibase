@@ -34,6 +34,7 @@ class ItemTranslator {
 			return $semanticEntity;
 		}
 
+		// TODO
 		$this->subject = DIWikiPage::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM );
 
 		$semanticEntity->addPropertyValue(
@@ -55,16 +56,17 @@ class ItemTranslator {
 			);
 		}
 
+		$dataValueTranslator = new DataValueTranslator();
+
+		// TODO
 		foreach ( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] )->getMainSnaks() as $snak ) {
 			if ( $snak instanceof PropertyValueSnak ) {
 				$value = $snak->getDataValue();
 
-				if ( $value instanceof StringValue ) {
-					$semanticEntity->addPropertyValue(
-						UserDefinedProperties::idFromWikibaseProperty( $snak->getPropertyId() ),
-						new \SMWDIBlob( $value->getValue() )
-					);
-				}
+				$semanticEntity->addPropertyValue(
+					UserDefinedProperties::idFromWikibaseProperty( $snak->getPropertyId() ),
+					$dataValueTranslator->translate( $value )
+				);
 			}
 		}
 
