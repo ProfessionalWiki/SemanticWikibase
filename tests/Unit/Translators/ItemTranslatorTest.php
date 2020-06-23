@@ -6,11 +6,9 @@ namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
 
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\PropertyValuePair;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use PHPUnit\Framework\TestCase;
-use SMW\DIProperty;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
@@ -38,12 +36,9 @@ class ItemTranslatorTest extends TestCase {
 
 		$this->assertEquals(
 			[
-				new PropertyValuePair(
-					new DIProperty( FixedProperties::ID ),
-					new \SMWDIBlob( 'Q1' )
-				),
+				new \SMWDIBlob( 'Q1' )
 			],
-			$this->translate( $item )->getPropertyValuePairs()
+			$this->translate( $item )->getDataItemsForProperty( FixedProperties::ID )
 		);
 	}
 
@@ -56,16 +51,9 @@ class ItemTranslatorTest extends TestCase {
 
 		$this->assertEquals(
 			[
-				new PropertyValuePair(
-					new DIProperty( FixedProperties::ID ),
-					new \SMWDIBlob( 'Q1' )
-				),
-				new PropertyValuePair(
-					new DIProperty( '___SWB_P1' ),
-					new \SMWDIBlob( 'Hello there' )
-				)
+				new \SMWDIBlob( 'Hello there' )
 			],
-			$this->translate( $item )->getPropertyValuePairs()
+			$this->translate( $item )->getDataItemsForProperty( '___SWB_P1' )
 		);
 	}
 

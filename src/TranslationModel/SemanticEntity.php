@@ -12,9 +12,6 @@ class SemanticEntity {
 	private array $propertyValuePairs = [];
 	private array $dataItemsPerProperty = [];
 
-	public function __construct() {
-	}
-
 	public function addPropertyValue( string $propertyId, SMWDataItem $dataItem ) {
 		$this->propertyValuePairs[] = new PropertyValuePair(
 			new DIProperty( $propertyId ),
