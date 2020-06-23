@@ -2,11 +2,12 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Translation;
+namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\PropertyValuePair;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\PropertyValuePair;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
 use SMW\DataValueFactory;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
@@ -22,13 +23,13 @@ class ItemTranslator {
 	/**
 	 * @param Item $item
 	 *
-	 * @return PropertyValuePair[]
+	 * @return SemanticEntity
 	 */
-	public function itemToSmwValues( Item $item ): array {
+	public function itemToSmwValues( Item $item ): SemanticEntity {
 		$itemId = $item->getId();
 
 		if ( $itemId === null ) {
-			return [];
+			return new SemanticEntity( [] );
 		}
 
 		$propertyValues = [];
@@ -65,7 +66,7 @@ class ItemTranslator {
 			}
 		}
 
-		return $propertyValues;
+		return new SemanticEntity( $propertyValues );
 	}
 
 }

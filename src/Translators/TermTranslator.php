@@ -2,10 +2,10 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Translation;
+namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use MediaWiki\Extension\SemanticWikibase\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\PropertyValuePair;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\PropertyValuePair;
 use SMW\DataValueFactory;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DIProperty;

@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use SMW\SemanticData;
 use Title;
 use Wikibase\DataModel\Entity\Item;
@@ -42,7 +42,7 @@ class SemanticDataUpdate {
 	private function storeItem( SemanticData $semanticData, Item $item ): void {
 		$builder = new ItemTranslator();
 
-		foreach ( $builder->itemToSmwValues( $item ) as $propertyValue ) {
+		foreach ( $builder->itemToSmwValues( $item )->getPropertyValuePairs() as $propertyValue ) {
 			$semanticData->addPropertyObjectValue(
 				$propertyValue->getProperty(),
 				$propertyValue->getValue()

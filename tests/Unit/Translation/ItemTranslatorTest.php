@@ -6,8 +6,8 @@ namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\PropertyValuePair;
-use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
+use MediaWiki\Extension\SemanticWikibase\TranslationModel\PropertyValuePair;
+use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
 use Wikibase\DataModel\Entity\Item;
@@ -16,7 +16,7 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
- * @covers \MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator
  */
 class ItemTranslatorTest extends TestCase {
 
@@ -33,7 +33,7 @@ class ItemTranslatorTest extends TestCase {
 	 */
 	private function translate( Item $item ): array {
 		$translator = new ItemTranslator();
-		return $translator->itemToSmwValues( $item );
+		return $translator->itemToSmwValues( $item )->getPropertyValuePairs();
 	}
 
 	public function testFoo() {

@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase;
+namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
 
 use SMW\DIProperty;
 use SMWDataItem;
