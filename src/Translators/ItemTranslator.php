@@ -56,7 +56,7 @@ class ItemTranslator {
 			);
 		}
 
-		$dataValueTranslator = new DataValueTranslator();
+		$dataValueTranslator = new DataValueTranslator( DataValueFactory::getInstance() );
 
 		// TODO
 		foreach ( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] )->getMainSnaks() as $snak ) {
