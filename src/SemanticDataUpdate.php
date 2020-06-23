@@ -40,14 +40,11 @@ class SemanticDataUpdate {
 	}
 
 	private function storeItem( SemanticData $semanticData, Item $item ): void {
-		$builder = new ItemTranslator();
-
-		foreach ( $builder->itemToSmwValues( $item )->getPropertyValuePairs() as $propertyValue ) {
-			$semanticData->addPropertyObjectValue(
-				$propertyValue->getProperty(),
-				$propertyValue->getValue()
-			);
-		}
+		$semanticData->importDataFrom(
+			( new ItemTranslator() )
+				->itemToSmwValues( $item )
+				->toSemanticData( $semanticData->getSubject() )
+		);
 	}
 
 }

@@ -22,7 +22,7 @@ class ItemTranslatorTest extends TestCase {
 	public function testEmptyItem() {
 		$this->assertSame(
 			[],
-			$this->translate( new Item() )->getPropertyValuePairs()
+			$this->translate( new Item() )->getDataItemsForProperty( FixedProperties::ID )
 		);
 	}
 
