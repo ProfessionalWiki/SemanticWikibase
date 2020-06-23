@@ -7,6 +7,8 @@ namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
 use SMW\DataValues\StringValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\Store\PropertyInfoLookup;
+use Wikibase\Lib\Store\StorageException;
+use Wikimedia\Rdbms\DBError;
 
 class UserDefinedProperties {
 
@@ -22,7 +24,7 @@ class UserDefinedProperties {
 	public function getAll(): array {
 		$properties = [];
 
-		foreach ( $this->propertyInfoLookup->getAllPropertyInfo() as $id => $propertyInfo ) {
+		foreach ( $this->getAllPropertyInfo() as $id => $propertyInfo ) {
 			$properties[] = new SemanticProperty(
 				self::idFromWikibaseString( $id ),
 				StringValue::TYPE_ID,
@@ -31,6 +33,15 @@ class UserDefinedProperties {
 		}
 
 		return $properties;
+	}
+
+	public function getAllPropertyInfo(): array {
+		try {
+			return $this->propertyInfoLookup->getAllPropertyInfo();
+		}
+		catch ( StorageException | DBError $ex ) {
+			return [];
+		}
 	}
 
 	private static function idFromWikibaseString( string $propertyId ): string {
