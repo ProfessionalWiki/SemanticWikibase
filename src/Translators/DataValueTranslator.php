@@ -11,7 +11,12 @@ use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use SMW\DataValueFactory;
+use SMW\DIWikiPage;
 use SMWDataItem;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 
 class DataValueTranslator {
 
@@ -37,6 +42,9 @@ class DataValueTranslator {
 		if ( $value instanceof GlobeCoordinateValue ) {
 			return $this->translateGlobeCoordinateValue( $value );
 		}
+		if ( $value instanceof EntityIdValue ) {
+			return $this->translateEntityIdValue( $value );
+		}
 	}
 
 	private function translateMonolingualTextValue( MonolingualTextValue $value ): SMWDataItem {
@@ -51,6 +59,25 @@ class DataValueTranslator {
 			$globeValue->getLatitude(),
 			$globeValue->getLongitude()
 		);
+	}
+
+	private function translateEntityIdValue( EntityIdValue $idValue ): SMWDataItem {
+		return new DIWikiPage(
+			$idValue->getEntityId()->getSerialization(),
+			$this->entityIdToNamespaceId( $idValue->getEntityId() )
+		);
+	}
+
+	private function entityIdToNamespaceId( EntityId $idValue ): int {
+		if ( $idValue instanceof ItemId ) {
+			return WB_NS_ITEM;
+		}
+
+		if ( $idValue instanceof PropertyId ) {
+			return WB_NS_PROPERTY;
+		}
+
+		throw new \RuntimeException( 'Support for EntityId type not implemented' );
 	}
 
 }

@@ -15,9 +15,13 @@ use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
 use PHPUnit\Framework\TestCase;
 use SMW\DataValueFactory;
 use SMW\DIProperty;
+use SMW\DIWikiPage;
 use SMWDataItem;
 use SMWDIContainer;
 use SMWDIGeoCoord;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 
 /**
  * @covers \MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator
@@ -77,6 +81,18 @@ class DataValueTranslatorTest extends TestCase {
 				new LatLongValue( 1.006, 1.47 ),
 				0.01,
 			) )
+		);
+	}
+
+	public function testTranslateEntityId() {
+		$this->assertEquals(
+			new DIWikiPage( 'Q1', WB_NS_ITEM ),
+			$this->translate( new EntityIdValue( new ItemId( 'Q1' ) ) )
+		);
+
+		$this->assertEquals(
+			new DIWikiPage( 'P42', WB_NS_PROPERTY ),
+			$this->translate( new EntityIdValue( new PropertyId( 'P42' ) ) )
 		);
 	}
 
