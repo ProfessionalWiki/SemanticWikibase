@@ -6,11 +6,11 @@ namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use DataValues\BooleanValue;
 use DataValues\DataValue;
+use DataValues\Geo\Values\GlobeCoordinateValue;
 use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use SMW\DataValueFactory;
-use SMW\DIProperty;
 use SMWDataItem;
 
 class DataValueTranslator {
@@ -34,13 +34,23 @@ class DataValueTranslator {
 		if ( $value instanceof MonolingualTextValue ) {
 			return $this->translateMonolingualTextValue( $value );
 		}
+		if ( $value instanceof GlobeCoordinateValue ) {
+			return $this->translateGlobeCoordinateValue( $value );
+		}
 	}
 
 	private function translateMonolingualTextValue( MonolingualTextValue $value ): SMWDataItem {
-		return DataValueFactory::getInstance()->newDataValueByType(
+		return $this->dataValueFactory->newDataValueByType(
 			\SMW\DataValues\MonolingualTextValue::TYPE_ID,
 			$value->getText() . '@' . $value->getLanguageCode(),
 		)->getDataItem();
+	}
+
+	private function translateGlobeCoordinateValue( GlobeCoordinateValue $globeValue ): \SMWDIGeoCoord {
+		return \SMWDIGeoCoord::newFromLatLong(
+			$globeValue->getLatitude(),
+			$globeValue->getLongitude()
+		);
 	}
 
 }

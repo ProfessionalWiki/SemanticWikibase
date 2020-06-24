@@ -6,18 +6,18 @@ namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
 
 use DataValues\BooleanValue;
 use DataValues\DataValue;
+use DataValues\Geo\Values\GlobeCoordinateValue;
+use DataValues\Geo\Values\LatLongValue;
 use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
 use PHPUnit\Framework\TestCase;
-use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;
-use SMW\DataValues\MonolingualTextValue as SMWMonolingualTextValue;
 use SMW\DIProperty;
-use SMW\DIWikiPage;
 use SMWDataItem;
 use SMWDIContainer;
+use SMWDIGeoCoord;
 
 /**
  * @covers \MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator
@@ -67,6 +67,16 @@ class DataValueTranslatorTest extends TestCase {
 		$this->assertEquals(
 			[ 'en' ],
 			$dataItem->getSemanticData()->getPropertyValues( new DIProperty( '_LCODE' ) )
+		);
+	}
+
+	public function testGlobeCoordinate() {
+		$this->assertEquals(
+			SMWDIGeoCoord::newFromLatLong( 1.006, 1.47 ),
+			$this->translate( new GlobeCoordinateValue(
+				new LatLongValue( 1.006, 1.47 ),
+				0.01,
+			) )
 		);
 	}
 
