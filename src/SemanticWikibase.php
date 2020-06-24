@@ -48,7 +48,7 @@ class SemanticWikibase {
 
 	public function getUserDefinedProperties(): UserDefinedProperties {
 		return new UserDefinedProperties(
-			WikibaseRepo::getDefaultInstance()->getStore()->getPropertyInfoLookup()
+			WikibaseRepo::getDefaultInstance()->getWikibaseServices()->getPropertyInfoLookup()
 		);
 	}
 

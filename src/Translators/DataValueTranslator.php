@@ -46,9 +46,6 @@ class DataValueTranslator {
 		if ( $value instanceof MonolingualTextValue ) {
 			return $this->translateMonolingualTextValue( $value );
 		}
-		if ( $value instanceof GlobeCoordinateValue ) {
-			return $this->translateGlobeCoordinateValue( $value );
-		}
 		if ( $value instanceof EntityIdValue ) {
 			return $this->translateEntityIdValue( $value );
 		}
@@ -58,6 +55,11 @@ class DataValueTranslator {
 		if ( $value instanceof QuantityValue ) {
 			return $this->translateQuantityValue( $value );
 		}
+		if ( $value instanceof GlobeCoordinateValue ) {
+			return $this->translateGlobeCoordinateValue( $value );
+		}
+
+		throw new \RuntimeException( 'Support for DataValue type not implemented' );
 	}
 
 	private function translateMonolingualTextValue( MonolingualTextValue $value ): SMWDataItem {
