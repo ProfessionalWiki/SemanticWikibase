@@ -45,18 +45,18 @@ class ItemTranslator {
 		foreach ( $item->getLabels() as $label ) {
 			$semanticEntity->addPropertyValue(
 				FixedProperties::LABEL,
-				$this->translateTerm( $label, FixedProperties::newLabel()->getId() )
+				$this->translateTerm( $label, FixedProperties::LABEL )
 			);
 		}
 
 		foreach ( $item->getDescriptions() as $description ) {
 			$semanticEntity->addPropertyValue(
 				FixedProperties::DESCRIPTION,
-				$this->translateTerm( $description, FixedProperties::newDescription()->getId() )
+				$this->translateTerm( $description, FixedProperties::DESCRIPTION )
 			);
 		}
 
-		$dataValueTranslator = new DataValueTranslator( DataValueFactory::getInstance() );
+		$dataValueTranslator = new DataValueTranslator( DataValueFactory::getInstance(), $this->subject );
 
 		// TODO
 		foreach ( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] )->getMainSnaks() as $snak ) {
