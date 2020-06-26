@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticProperty;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
 use SMW\PropertyRegistry;
 use Wikibase\Repo\WikibaseRepo;
 
@@ -48,8 +49,13 @@ class SemanticWikibase {
 
 	public function getUserDefinedProperties(): UserDefinedProperties {
 		return new UserDefinedProperties(
-			WikibaseRepo::getDefaultInstance()->getWikibaseServices()->getPropertyInfoLookup()
+			WikibaseRepo::getDefaultInstance()->getWikibaseServices()->getPropertyInfoLookup(),
+			$this->getPropertyTypeTranslator()
 		);
+	}
+
+	private function getPropertyTypeTranslator(): PropertyTypeTranslator {
+		return new PropertyTypeTranslator();
 	}
 
 }

@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
 
+use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
 use SMW\DataValues\StringValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\Store\PropertyInfoLookup;
@@ -13,9 +14,11 @@ use Wikimedia\Rdbms\DBError;
 class UserDefinedProperties {
 
 	private PropertyInfoLookup $propertyInfoLookup;
+	private PropertyTypeTranslator $propertyTypeTranslator;
 
-	public function __construct( PropertyInfoLookup $propertyInfoLookup ) {
+	public function __construct( PropertyInfoLookup $propertyInfoLookup, PropertyTypeTranslator $propertyTypeTranslator ) {
 		$this->propertyInfoLookup = $propertyInfoLookup;
+		$this->propertyTypeTranslator = $propertyTypeTranslator;
 	}
 
 	/**
@@ -25,11 +28,13 @@ class UserDefinedProperties {
 		$properties = [];
 
 		foreach ( $this->getAllPropertyInfo() as $id => $propertyInfo ) {
-			$properties[] = new SemanticProperty(
-				self::idFromWikibaseString( $id ),
-				StringValue::TYPE_ID,
-				$id
-			);
+			if ( $this->propertyTypeTranslator->canTranslate( $propertyInfo['type'] ) ) {
+				$properties[] = new SemanticProperty(
+					self::idFromWikibaseString( $id ),
+					$this->propertyTypeTranslator->translate( $propertyInfo['type'] ),
+					$id
+				);
+			}
 		}
 
 		return $properties;

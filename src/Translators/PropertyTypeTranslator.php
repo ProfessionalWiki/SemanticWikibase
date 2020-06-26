@@ -23,8 +23,13 @@ class PropertyTypeTranslator {
 		'url' => null, // TODO
 		'external-id' => null, // TODO
 		'wikibase-item' => '_wpg',
-		'wikibase-property' => StringValue::TYPE_ID,
+		'wikibase-property' => '_wpg',
 	];
+
+	public function canTranslate( string $wikibasePropertyType ): bool {
+		return array_key_exists( $wikibasePropertyType, self::MAP )
+			&& is_string( self::MAP[$wikibasePropertyType] );
+	}
 
 	/**
 	 * Wikibase property type => SMW DataValue type
