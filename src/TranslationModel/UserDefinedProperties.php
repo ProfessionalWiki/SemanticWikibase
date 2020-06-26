@@ -5,7 +5,6 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
 
 use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
-use SMW\DataValues\StringValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;
