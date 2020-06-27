@@ -11,7 +11,7 @@ class TypedDataValue {
 	private DataValue $value;
 	private string $propertyType;
 
-	public function __construct( DataValue $value, string $propertyType ) {
+	public function __construct( string $propertyType, DataValue $value ) {
 		$this->value = $value;
 		$this->propertyType = $propertyType;
 	}
