@@ -9,6 +9,7 @@ use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use PHPUnit\Framework\TestCase;
+use SMW\DataValueFactory;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
@@ -27,7 +28,7 @@ class ItemTranslatorTest extends TestCase {
 	}
 
 	private function translate( Item $item ): SemanticEntity {
-		$translator = new ItemTranslator();
+		$translator = new ItemTranslator( DataValueFactory::getInstance() );
 		return $translator->itemToSmwValues( $item );
 	}
 

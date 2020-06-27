@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase;
 
 use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
+use SMW\DataValueFactory;
 use SMW\SemanticData;
 use Title;
 use Wikibase\DataModel\Entity\Item;
@@ -12,6 +13,12 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\Repo\WikibaseRepo;
 
 class SemanticDataUpdate {
+
+	private ItemTranslator $itemTranslator;
+
+	public function __construct( ItemTranslator $itemTranslator ) {
+		$this->itemTranslator = $itemTranslator;
+	}
 
 	public function run( SemanticData $semanticData ): void {
 		$title = $semanticData->getSubject()->getTitle();
@@ -41,7 +48,7 @@ class SemanticDataUpdate {
 
 	private function storeItem( SemanticData $semanticData, Item $item ): void {
 		$semanticData->importDataFrom(
-			( new ItemTranslator() )
+			$this->itemTranslator
 				->itemToSmwValues( $item )
 				->toSemanticData( $semanticData->getSubject() )
 		);

@@ -7,7 +7,9 @@ namespace MediaWiki\Extension\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticProperty;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
+use SMW\DataValueFactory;
 use SMW\PropertyRegistry;
 use Wikibase\Repo\WikibaseRepo;
 
@@ -18,7 +20,7 @@ class SemanticWikibase {
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
-		return new SemanticDataUpdate();
+		return new SemanticDataUpdate( new ItemTranslator( DataValueFactory::getInstance() ) );
 	}
 
 	public function registerProperties( PropertyRegistry $propertyRegistry ) {

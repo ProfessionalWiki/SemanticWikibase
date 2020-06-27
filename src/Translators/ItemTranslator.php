@@ -22,10 +22,13 @@ use Wikibase\DataModel\Term\TermList;
 
 class ItemTranslator {
 
+	private DataValueFactory $dataValueFactory;
+
 	private SemanticEntity $semanticEntity;
 	private DIWikiPage $subject;
 
-	public function __construct() {
+	public function __construct( DataValueFactory $dataValueFactory ) {
+		$this->dataValueFactory = $dataValueFactory;
 	}
 
 	public function itemToSmwValues( Item $item ): SemanticEntity {
@@ -62,7 +65,7 @@ class ItemTranslator {
 
 	private function translateTerm( Term $term, string $propertyId ): SMWDataItem {
 		// TODO
-		return DataValueFactory::getInstance()->newDataValueByType(
+		return $this->dataValueFactory->newDataValueByType(
 			MonolingualTextValue::TYPE_ID,
 			$term->getText() . '@' . $term->getLanguageCode(),
 			false,
@@ -81,7 +84,7 @@ class ItemTranslator {
 	}
 
 	private function addStatements( StatementList $statements ) {
-		$dataValueTranslator = new DataValueTranslator( DataValueFactory::getInstance(), $this->subject );
+		$dataValueTranslator = new DataValueTranslator( $this->dataValueFactory, $this->subject );
 
 		foreach ( $statements->getMainSnaks() as $snak ) {
 			if ( $snak instanceof PropertyValueSnak ) {
