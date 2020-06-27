@@ -13,6 +13,7 @@ use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\QuantityValue;
 use DataValues\StringValue;
+use DataValues\TimeValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
@@ -154,6 +155,56 @@ class DataValueTranslatorTest extends TestCase {
 		$this->assertEquals(
 			new SMWDIUri( 'https', 'www.EntropyWins.wtf/mediawiki', 'hello', 'there' ),
 			$this->translate( new StringValue( 'https://www.EntropyWins.wtf/mediawiki?hello#there' ), 'url' )
+		);
+	}
+
+	public function testTranslateGregorianTimeValue() {
+		$this->assertEquals(
+			new \SMWDITime(
+				\SMWDITime::CM_GREGORIAN,
+				2020,
+				06,
+				27,
+				19,
+				21,
+				42
+			),
+			$this->translate(
+				new TimeValue(
+					'+2020-06-27T19:21:42Z',
+					0,
+					0,
+					0,
+					11,
+					'http://www.wikidata.org/entity/Q1985727'
+				),
+				'time'
+			)
+		);
+	}
+
+	public function testTranslateJulianTimeValue() {
+		$this->assertEquals(
+			new \SMWDITime(
+				\SMWDITime::CM_JULIAN,
+				2020,
+				06,
+				27,
+				0,
+				0,
+				0
+			),
+			$this->translate(
+				new TimeValue(
+					'+2020-06-27T00:00:00Z',
+					0,
+					10,
+					20,
+					11,
+					'http://www.wikidata.org/entity/Q1985786'
+				),
+				'time'
+			)
 		);
 	}
 

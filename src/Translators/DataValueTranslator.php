@@ -11,13 +11,16 @@ use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\QuantityValue;
 use DataValues\StringValue;
+use DataValues\TimeValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;
+use SMW\DataValues\ValueParsers\TimeValueParser;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDataItem;
+use SMWDITime;
 use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
@@ -60,6 +63,9 @@ class DataValueTranslator {
 		}
 		if ( $value instanceof GlobeCoordinateValue ) {
 			return $this->translateGlobeCoordinateValue( $value );
+		}
+		if ( $value instanceof TimeValue ) {
+			return $this->translateTimeValue( $value );
 		}
 
 		throw new \RuntimeException( 'Support for DataValue type not implemented' );
@@ -134,6 +140,25 @@ class DataValueTranslator {
 		);
 
 		return new \SMWDIContainer( $container );
+	}
+
+	private function translateTimeValue( TimeValue $value ): \SMWDITime {
+		$components = ( new TimeValueParser() )->parse( $value->getTime() );
+
+		return new \SMWDITime(
+			$this->wbToSmwCalendarModel( $value->getCalendarModel() ),
+			$components->get( 'datecomponents' )[0],
+			$components->get( 'datecomponents' )[2],
+			$components->get( 'datecomponents' )[4],
+			$components->get( 'hours' ),
+			$components->get( 'minutes' ),
+			$components->get( 'seconds' ),
+		);
+	}
+
+	private function wbToSmwCalendarModel( string $wbCalendarModel ): int {
+		$julianModel = 'http://www.wikidata.org/entity/Q1985786';
+		return $wbCalendarModel === $julianModel ? SMWDITime::CM_JULIAN : SMWDITime::CM_GREGORIAN;
 	}
 
 }
