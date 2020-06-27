@@ -208,4 +208,11 @@ class DataValueTranslatorTest extends TestCase {
 		);
 	}
 
+	public function testTranslateExternalId() {
+		$this->assertEquals(
+			new \SMWDIBlob( '978-84-339-1247-3' ),
+			$this->translate( new StringValue( '978-84-339-1247-3' ), 'external-id' )
+		);
+	}
+
 }

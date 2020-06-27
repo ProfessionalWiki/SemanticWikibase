@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use Maps\SemanticMW\CoordinateValue;
+use SMW\DataValues\ExternalIdentifierValue;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DataValues\StringValue;
 use SMWTimeValue;
@@ -38,7 +39,7 @@ class PropertyTypeTranslator {
 			'entity-schema' => null, // TODO
 			'time' => SMWTimeValue::TYPE_ID,
 			'url' => '_uri',
-			'external-id' => null, // TODO
+			'external-id' => ExternalIdentifierValue::TYPE_ID,
 			'wikibase-item' => '_wpg',
 			'wikibase-property' => '_wpg',
 		];
