@@ -37,7 +37,7 @@ class PropertyTypeTranslator {
 			'tabular-data' => null, // TODO
 			'entity-schema' => null, // TODO
 			'time' => SMWTimeValue::TYPE_ID,
-			'url' => null, // TODO
+			'url' => '_uri',
 			'external-id' => null, // TODO
 			'wikibase-item' => '_wpg',
 			'wikibase-property' => '_wpg',
