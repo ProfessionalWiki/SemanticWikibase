@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
 
+use Maps\SemanticMW\CoordinateValue;
 use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
 use PHPUnit\Framework\TestCase;
 
@@ -12,8 +13,15 @@ use PHPUnit\Framework\TestCase;
  */
 class PropertyTypeTranslatorTest extends TestCase {
 
-	public function testFoo() {
+	public function testTranslation() {
 		$this->assertSame( '_txt', $this->translate( 'string' ) );
+		$this->assertSame( '_txt', $this->translate( 'commonsMedia' ) );
+		$this->assertSame( '_mlt_rec', $this->translate( 'monolingualtext' ) );
+		$this->assertSame( '_wpg', $this->translate( 'wikibase-item' ) );
+
+		if ( class_exists( CoordinateValue::class ) ) {
+			$this->assertSame( '_geo', $this->translate( 'globe-coordinate' ) );
+		}
 	}
 
 	private function translate( string $wikibasePropertyType ): string {

@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
+use Maps\SemanticMW\CoordinateValue;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DataValues\StringValue;
 use SMWTimeValue;
@@ -30,7 +31,6 @@ class PropertyTypeTranslator {
 		$map = [
 			'commonsMedia' => StringValue::TYPE_ID,
 			'geo-shape' => StringValue::TYPE_ID,
-			'globe-coordinate' => null, // TODO: maps only
 			'monolingualtext' => MonolingualTextValue::TYPE_ID,
 			'quantity' => 'subobject', // TODO // Could also use SMWQuantityValue
 			'string' => StringValue::TYPE_ID,
@@ -42,6 +42,10 @@ class PropertyTypeTranslator {
 			'wikibase-item' => '_wpg',
 			'wikibase-property' => '_wpg',
 		];
+
+		if ( class_exists( CoordinateValue::class ) ) {
+			$map['globe-coordinate'] = '_geo';
+		}
 
 		return $map;
 	}
