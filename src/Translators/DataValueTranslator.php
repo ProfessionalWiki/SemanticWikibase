@@ -5,7 +5,6 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Translators;
 
 use DataValues\BooleanValue;
-use DataValues\DataValue;
 use DataValues\DecimalValue;
 use DataValues\Geo\Values\GlobeCoordinateValue;
 use DataValues\MonolingualTextValue;
@@ -13,11 +12,13 @@ use DataValues\NumberValue;
 use DataValues\QuantityValue;
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDataItem;
+use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -33,10 +34,11 @@ class DataValueTranslator {
 		$this->subject = $subject;
 	}
 
-	// TODO: DataValue + property type
-	public function translate( DataValue $value ): SMWDataItem {
+	public function translate( TypedDataValue $typedValue ): SMWDataItem {
+		$value = $typedValue->getValue();
+
 		if ( $value instanceof StringValue ) {
-			return new \SMWDIBlob( $value->getValue() );
+			return $this->translateStringValue( $typedValue );
 		}
 		if ( $value instanceof BooleanValue ) {
 			return new \SMWDIBoolean( $value->getValue() );
@@ -61,6 +63,14 @@ class DataValueTranslator {
 		}
 
 		throw new \RuntimeException( 'Support for DataValue type not implemented' );
+	}
+
+	private function translateStringValue( TypedDataValue $typedValue ): SMWDataItem {
+		if ( $typedValue->getPropertyType() === 'url' ) {
+			return SMWDIUri::doUnserialize( $typedValue->getValue()->getValue() );
+		}
+
+		return new \SMWDIBlob( $typedValue->getValue()->getValue() );
 	}
 
 	private function translateMonolingualTextValue( MonolingualTextValue $value ): SMWDataItem {

@@ -15,6 +15,7 @@ use DataValues\QuantityValue;
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use PHPUnit\Framework\TestCase;
 use SMW\DataValueFactory;
 use SMW\DIProperty;
@@ -22,6 +23,7 @@ use SMW\DIWikiPage;
 use SMWDataItem;
 use SMWDIContainer;
 use SMWDIGeoCoord;
+use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
@@ -41,11 +43,11 @@ class DataValueTranslatorTest extends TestCase {
 		);
 	}
 
-	private function translate( DataValue $dataValue ): \SMWDataItem {
+	private function translate( DataValue $dataValue, string $propertyType = '' ): \SMWDataItem {
 		return ( new DataValueTranslator(
 			DataValueFactory::getInstance(),
 			$this->getSubject()
-		) )->translate( $dataValue );
+		) )->translate( new TypedDataValue( $propertyType, $dataValue ) );
 	}
 
 	private function getSubject(): DIWikiPage {
@@ -148,6 +150,11 @@ class DataValueTranslatorTest extends TestCase {
 		);
 	}
 
-
+	public function testTranslateUrlValue() {
+		$this->assertEquals(
+			new SMWDIUri( 'https', 'www.EntropyWins.wtf/mediawiki', 'hello', 'there' ),
+			$this->translate( new StringValue( 'https://www.EntropyWins.wtf/mediawiki?hello#there' ), 'url' )
+		);
+	}
 
 }

@@ -11,6 +11,7 @@ use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
 use SMW\DataValueFactory;
 use SMW\PropertyRegistry;
+use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
 
 class SemanticWikibase {
@@ -20,7 +21,18 @@ class SemanticWikibase {
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
-		return new SemanticDataUpdate( new ItemTranslator( DataValueFactory::getInstance() ) );
+		return new SemanticDataUpdate( $this->newItemTranslator() );
+	}
+
+	public function newItemTranslator(): ItemTranslator {
+		return new ItemTranslator(
+			DataValueFactory::getInstance(),
+			$this->getPropertyTypeLookup()
+		);
+	}
+
+	private function getPropertyTypeLookup(): PropertyDataTypeLookup {
+		return WikibaseRepo::getDefaultInstance()->getPropertyDataTypeLookup();
 	}
 
 	public function registerProperties( PropertyRegistry $propertyRegistry ) {

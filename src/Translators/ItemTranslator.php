@@ -7,6 +7,7 @@ namespace MediaWiki\Extension\SemanticWikibase\Translators;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataValueFactory;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DIProperty;
@@ -14,7 +15,9 @@ use SMW\DIWikiPage;
 use SMWDataItem;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
 use Wikibase\DataModel\Term\Term;
@@ -26,9 +29,11 @@ class ItemTranslator {
 
 	private SemanticEntity $semanticEntity;
 	private DIWikiPage $subject;
+	private PropertyDataTypeLookup $propertyTypeLookup;
 
-	public function __construct( DataValueFactory $dataValueFactory ) {
+	public function __construct( DataValueFactory $dataValueFactory, PropertyDataTypeLookup $propertyTypeLookup ) {
 		$this->dataValueFactory = $dataValueFactory;
+		$this->propertyTypeLookup = $propertyTypeLookup;
 	}
 
 	public function itemToSmwValues( Item $item ): SemanticEntity {
@@ -86,16 +91,35 @@ class ItemTranslator {
 	private function addStatements( StatementList $statements ) {
 		$dataValueTranslator = new DataValueTranslator( $this->dataValueFactory, $this->subject );
 
-		foreach ( $statements->getMainSnaks() as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				$value = $snak->getDataValue();
+		foreach ( $this->getPropertyValueSnaks( $statements->getMainSnaks() ) as $snak ) {
+			$this->semanticEntity->addPropertyValue(
+				UserDefinedProperties::idFromWikibaseProperty( $snak->getPropertyId() ),
+				$dataValueTranslator->translate( $this->snakToTypedValue( $snak ) )
+			);
+		}
+	}
 
-				$this->semanticEntity->addPropertyValue(
-					UserDefinedProperties::idFromWikibaseProperty( $snak->getPropertyId() ),
-					$dataValueTranslator->translate( $value )
-				);
+	private function snakToTypedValue( PropertyValueSnak $snak ): TypedDataValue {
+		return new TypedDataValue(
+			$this->propertyTypeLookup->getDataTypeIdForProperty( $snak->getPropertyId() ),
+			$snak->getDataValue()
+		);
+	}
+
+	/**
+	 * @param Snak[] $snaks
+	 * @return PropertyValueSnak[]
+	 */
+	private function getPropertyValueSnaks( array $snaks ): array {
+		$valueSnaks = [];
+
+		foreach ( $snaks as $snak ) {
+			if ( $snak instanceof PropertyValueSnak ) {
+				$valueSnaks[] = $snak;
 			}
 		}
+
+		return $valueSnaks;
 	}
 
 
