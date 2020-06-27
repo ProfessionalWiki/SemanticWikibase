@@ -33,6 +33,7 @@ class DataValueTranslator {
 		$this->subject = $subject;
 	}
 
+	// TODO: DataValue + property type
 	public function translate( DataValue $value ): SMWDataItem {
 		if ( $value instanceof StringValue ) {
 			return new \SMWDIBlob( $value->getValue() );
