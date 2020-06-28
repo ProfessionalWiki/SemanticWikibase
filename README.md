@@ -46,48 +46,48 @@ on the Wikibase property type. Only statements with a supported property type ar
     </tr>
     <tr>
         <td><strong>Item</strong></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Page</td>
+        <td>wikibase-item</td>
+        <td>_wpg</td>
     </tr>
     <tr>
         <td><strong>Monolingual text</strong></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Monolingual text</td>
+        <td>monolingualtext</td>
+        <td>_mlt_rec</td>
     </tr>
     <tr>
         <td><strong>Point in time</strong></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Date</td>
+        <td>time</td>
+        <td>_dat</td>
     </tr>
     <tr>
         <td><strong>Property</strong></td>
+        <td>Page</td>
+        <td>wikibase-property</td>
+        <td>_wpg</td>
+    </tr>
+    <tr>
+        <td><strong>Quantity</strong></td>
         <td></td>
-        <td></td>
+        <td>quantity</td>
         <td></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><strong>String</strong></td>
+        <td>Text</td>
+        <td>string</td>
+        <td>_txt</td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><strong>URL</strong></td>
+        <td>URL</td>
+        <td>url</td>
+        <td>_uri</td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
+        <td><strong></strong></td>
         <td></td>
         <td></td>
         <td></td>
