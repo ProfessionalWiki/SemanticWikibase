@@ -12,6 +12,7 @@ use DataValues\NumberValue;
 use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
+use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataModel\ContainerSemanticData;
@@ -58,7 +59,7 @@ class DataValueTranslator {
 		if ( $value instanceof DecimalValue ) {
 			return $this->translateDecimalValue( $value );
 		}
-		if ( $value instanceof QuantityValue ) {
+		if ( $value instanceof UnboundedQuantityValue ) {
 			return $this->translateQuantityValue( $value );
 		}
 		if ( $value instanceof GlobeCoordinateValue ) {
@@ -68,7 +69,7 @@ class DataValueTranslator {
 			return $this->translateTimeValue( $value );
 		}
 
-		throw new \RuntimeException( 'Support for DataValue type not implemented' );
+		throw new \RuntimeException( 'Support for DataValue type "' . get_class( $value ) . '" not implemented' );
 	}
 
 	private function translateStringValue( TypedDataValue $typedValue ): SMWDataItem {
@@ -116,8 +117,13 @@ class DataValueTranslator {
 		return new \SMWDINumber( $value->getValueFloat() );
 	}
 
-	private function translateQuantityValue( QuantityValue $quantityValue ): SMWDataItem {
-		$container = new ContainerSemanticData( $this->subject );
+	private function translateQuantityValue( UnboundedQuantityValue $quantityValue ): SMWDataItem {
+		$container = new ContainerSemanticData( new DIWikiPage(
+			$this->subject->getDBkey(),
+			$this->subject->getNamespace(),
+			$this->subject->getInterwiki(),
+			'Quantity ' . $quantityValue->getHash()
+		) );
 
 		$container->addPropertyObjectValue(
 			new DIProperty( FixedProperties::QUANTITY_VALUE ),
@@ -125,19 +131,21 @@ class DataValueTranslator {
 		);
 
 		$container->addPropertyObjectValue(
-			new DIProperty( FixedProperties::QUANTITY_LOWER_BOUND ),
-			$this->translateDecimalValue( $quantityValue->getLowerBound() )
-		);
-
-		$container->addPropertyObjectValue(
-			new DIProperty( FixedProperties::QUANTITY_UPPER_BOUND ),
-			$this->translateDecimalValue( $quantityValue->getUpperBound() )
-		);
-
-		$container->addPropertyObjectValue(
 			new DIProperty( FixedProperties::QUANTITY_UNIT ),
 			new \SMWDIBlob( $quantityValue->getUnit() )
 		);
+
+		if ( $quantityValue instanceof QuantityValue ) {
+			$container->addPropertyObjectValue(
+				new DIProperty( FixedProperties::QUANTITY_LOWER_BOUND ),
+				$this->translateDecimalValue( $quantityValue->getLowerBound() )
+			);
+
+			$container->addPropertyObjectValue(
+				new DIProperty( FixedProperties::QUANTITY_UPPER_BOUND ),
+				$this->translateDecimalValue( $quantityValue->getUpperBound() )
+			);
+		}
 
 		return new \SMWDIContainer( $container );
 	}

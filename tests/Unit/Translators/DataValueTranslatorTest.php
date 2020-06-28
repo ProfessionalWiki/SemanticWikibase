@@ -14,6 +14,7 @@ use DataValues\NumberValue;
 use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
+use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
@@ -117,7 +118,7 @@ class DataValueTranslatorTest extends TestCase {
 		);
 	}
 
-	public function testTranslateQuantity() {
+	public function testTranslateBoundedQuantity() {
 		/**
 		 * @var SMWDIContainer $container
 		 */
@@ -143,6 +144,28 @@ class DataValueTranslatorTest extends TestCase {
 		$this->assertEquals(
 			[ new \SMWDINumber( 42.49 ) ],
 			$semanticData->getPropertyValues( new DIProperty( FixedProperties::QUANTITY_UPPER_BOUND ) )
+		);
+
+		$this->assertEquals(
+			[ new \SMWDIBlob( 'mega awesome' ) ],
+			$semanticData->getPropertyValues( new DIProperty( FixedProperties::QUANTITY_UNIT ) )
+		);
+	}
+
+	public function testTranslateUnboundedQuantity() {
+		/**
+		 * @var SMWDIContainer $container
+		 */
+		$container = $this->translate( new UnboundedQuantityValue(
+			new DecimalValue( 42 ),
+			'mega awesome'
+		) );
+
+		$semanticData = $container->getSemanticData();
+
+		$this->assertEquals(
+			[ new \SMWDINumber( 42 ) ],
+			$semanticData->getPropertyValues( new DIProperty( FixedProperties::QUANTITY_VALUE ) )
 		);
 
 		$this->assertEquals(

@@ -69,5 +69,4 @@ class FixedProperties {
 		return new SemanticProperty( self::QUANTITY_UNIT, StringValue::TYPE_ID, 'Wikibase unit' );
 	}
 
-
 }

@@ -33,7 +33,7 @@ class PropertyTypeTranslator {
 			'commonsMedia' => StringValue::TYPE_ID,
 			'geo-shape' => StringValue::TYPE_ID,
 			'monolingualtext' => MonolingualTextValue::TYPE_ID,
-			'quantity' => 'subobject', // TODO // Could also use SMWQuantityValue
+			'quantity' => '_rec', // Purposefully not using SMWQuantityValue
 			'string' => StringValue::TYPE_ID,
 			'tabular-data' => null, // TODO
 			'entity-schema' => null, // TODO
