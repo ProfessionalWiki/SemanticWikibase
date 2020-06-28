@@ -21,16 +21,73 @@ on the Wikibase property type. Only statements with a supported property type ar
 
 <table>
     <tr>
-        <th>Wikibase type</th>
-        <th>SMW type</th>
-        <th></th>
+        <th>Wikibase name (en)</th>
+        <th>SMW name (en)</th>
+        <th>Wikibase id</th>
+        <th>SMW id</th>
+    </tr>
+    <tr>
+        <td><strong>Commons media file</strong></td>
+        <td>Text</td>
+        <td>commonsMedia</td>
+        <td>_txt</td>
+    </tr>
+    <tr>
+        <td><strong>External identifier</strong></td>
+        <td>External identifier</td>
+        <td>external-id</td>
+        <td>_eid</td>
+    </tr>
+    <tr>
+        <td><strong>Geographic coordinates</strong></td>
+        <td>Geographic coordinates</td>
+        <td>globe-coordinate</td>
+        <td>_geo</td>
+    </tr>
+    <tr>
+        <td><strong>Item</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>Monolingual text</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>Point in time</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>Property</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
     </tr>
     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
