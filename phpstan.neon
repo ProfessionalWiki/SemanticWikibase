@@ -8,6 +8,7 @@ parameters:
 		- ../../vendor
 		- ../SemanticMediaWiki/includes
 		- ../SemanticMediaWiki/src
-		- ../Wikibase/repo
+		- ../Wikibase/repo/includes
+		- ../Wikibase/lib/includes
 	ignoreErrors:
 		- '#Constant .+ not found#'
