@@ -2,11 +2,12 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataValueFactory;
 use SMW\DataValues\MonolingualTextValue;

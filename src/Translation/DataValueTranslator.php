@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
 use DataValues\BooleanValue;
 use DataValues\DecimalValue;
@@ -13,7 +13,7 @@ use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;

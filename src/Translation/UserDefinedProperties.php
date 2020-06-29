@@ -2,9 +2,10 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
+namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
-use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
+use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;

@@ -2,8 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\TranslationModel;
+namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
 use SMW\DataValues\MonolingualTextValue;
 use SMW\DataValues\StringValue;
 

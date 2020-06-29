@@ -2,12 +2,15 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Tests\TranslationModel;
+namespace MediaWiki\Extension\SemanticWikibase\Tests\SMW;
 
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity
+ */
 class SemanticEntityTest extends TestCase {
 
 	public function testWhenEntityIsEmpty_getDataItemsForPropertyReturnsEmptyArray() {

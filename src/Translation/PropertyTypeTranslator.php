@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
 use Maps\SemanticMW\CoordinateValue;
 use SMW\DataValues\ExternalIdentifierValue;

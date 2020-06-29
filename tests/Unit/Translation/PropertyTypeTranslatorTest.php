@@ -2,14 +2,14 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use Maps\SemanticMW\CoordinateValue;
-use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator
  */
 class PropertyTypeTranslatorTest extends TestCase {
 

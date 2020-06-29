@@ -4,11 +4,11 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticProperty;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\UserDefinedProperties;
-use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translators\PropertyTypeTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
+use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use SMW\DataValueFactory;
 use SMW\PropertyRegistry;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;

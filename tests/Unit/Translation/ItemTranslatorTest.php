@@ -2,12 +2,12 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use DataValues\StringValue;
 use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
@@ -15,7 +15,7 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
- * @covers \MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator
  */
 class ItemTranslatorTest extends TestCase {
 

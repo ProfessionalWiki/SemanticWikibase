@@ -4,8 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use MediaWiki\Extension\SemanticWikibase\Translators\ItemTranslator;
-use SMW\DataValueFactory;
+use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use SMW\SemanticData;
 use Title;
 use Wikibase\DataModel\Entity\Item;

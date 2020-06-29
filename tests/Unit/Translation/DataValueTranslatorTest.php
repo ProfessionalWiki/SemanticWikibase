@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\SemanticWikibase\Tests\Translators;
+namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use DataValues\BooleanValue;
 use DataValues\DataValue;
@@ -15,8 +15,8 @@ use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\TranslationModel\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use PHPUnit\Framework\TestCase;
 use SMW\DataValueFactory;
@@ -31,7 +31,7 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 
 /**
- * @covers \MediaWiki\Extension\SemanticWikibase\Translators\DataValueTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator
  */
 class DataValueTranslatorTest extends TestCase {
 
