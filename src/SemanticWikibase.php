@@ -6,10 +6,12 @@ namespace MediaWiki\Extension\SemanticWikibase;
 
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
+use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use SMW\DataValueFactory;
+use SMW\DIWikiPage;
 use SMW\PropertyRegistry;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
@@ -26,6 +28,13 @@ class SemanticWikibase {
 
 	public function newItemTranslator(): ItemTranslator {
 		return new ItemTranslator(
+			DataValueFactory::getInstance(),
+			$this->getStatementTranslator()
+		);
+	}
+
+	private function getStatementTranslator(): StatementTranslator {
+		return new StatementTranslator(
 			DataValueFactory::getInstance(),
 			$this->getPropertyTypeLookup()
 		);

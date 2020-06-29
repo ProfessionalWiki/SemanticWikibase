@@ -13,7 +13,6 @@ use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;
@@ -122,7 +121,7 @@ class DataValueTranslator {
 			$this->subject->getDBkey(),
 			$this->subject->getNamespace(),
 			$this->subject->getInterwiki(),
-			'Quantity ' . $quantityValue->getHash()
+			'Quantity ' . $quantityValue->getHash() // TODO: Q1$d40469c7-4586-70f5-7a75-cccef9381c4c
 		) );
 
 		$container->addPropertyObjectValue(
