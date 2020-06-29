@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
@@ -71,6 +73,18 @@ class ItemTranslatorTest extends TestCase {
 				new \SMWDIBlob( 'Hello there' ),
 				new \SMWDIBlob( 'fellow sentient' )
 			],
+			$this->translate( $item )->getDataItemsForProperty( '___SWB_P1' )
+		);
+	}
+
+	public function testOnlyPropertyValueSnaksGetAdded() {
+		$item = new Item( new ItemId( 'Q1' ) );
+
+		$item->getStatements()->addNewStatement( new PropertyNoValueSnak( new PropertyId( 'P1' ) ) );
+		$item->getStatements()->addNewStatement( new PropertySomeValueSnak( new PropertyId( 'P1' ) ) );
+
+		$this->assertSame(
+			[],
 			$this->translate( $item )->getDataItemsForProperty( '___SWB_P1' )
 		);
 	}
