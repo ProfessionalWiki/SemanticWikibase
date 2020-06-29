@@ -40,22 +40,25 @@ class ContainerValueTranslator {
 		}
 
 		$dataValue = $mainSnak->getDataValue();
+		$container = $this->newContainerSemanticData( $statement, $subject );
 
 		if ( $dataValue instanceof UnboundedQuantityValue ) {
-			return $this->translateQuantityValue( $dataValue, $subject );
+			return $this->translateQuantityValue( $dataValue, $container );
 		}
 
 		throw new \InvalidArgumentException( 'DataValue type not supported' );
 	}
 
-	private function translateQuantityValue( UnboundedQuantityValue $quantityValue, DIWikiPage $subject ): SMWDIContainer {
-		$container = new ContainerSemanticData( new DIWikiPage(
+	private function newContainerSemanticData( Statement $statement, DIWikiPage $subject ): ContainerSemanticData {
+		return new ContainerSemanticData( new DIWikiPage(
 			$subject->getDBkey(),
 			$subject->getNamespace(),
 			$subject->getInterwiki(),
-			'Quantity ' . $quantityValue->getHash() // TODO: Q1$d40469c7-4586-70f5-7a75-cccef9381c4c
+			$statement->getGuid()
 		) );
+	}
 
+	private function translateQuantityValue( UnboundedQuantityValue $quantityValue, ContainerSemanticData $container ): SMWDIContainer {
 		$container->addPropertyObjectValue(
 			new DIProperty( FixedProperties::QUANTITY_VALUE ),
 			$this->dataValueTranslator->translateDecimalValue( $quantityValue->getAmount() )
