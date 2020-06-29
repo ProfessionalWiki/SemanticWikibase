@@ -4,14 +4,15 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
-use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
+use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use SMW\DataValueFactory;
-use SMW\DIWikiPage;
 use SMW\PropertyRegistry;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
@@ -33,10 +34,23 @@ class SemanticWikibase {
 		);
 	}
 
-	private function getStatementTranslator(): StatementTranslator {
+	public function getStatementTranslator(): StatementTranslator {
 		return new StatementTranslator(
-			DataValueFactory::getInstance(),
+			$this->getDataValueTranslator(),
+			$this->getContainerValueTranslator(),
 			$this->getPropertyTypeLookup()
+		);
+	}
+
+	private function getDataValueTranslator(): DataValueTranslator {
+		return new DataValueTranslator(
+			DataValueFactory::getInstance()
+		);
+	}
+
+	public function getContainerValueTranslator(): ContainerValueTranslator {
+		return new ContainerValueTranslator(
+			$this->getDataValueTranslator()
 		);
 	}
 

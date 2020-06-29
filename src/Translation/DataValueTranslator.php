@@ -9,15 +9,11 @@ use DataValues\DecimalValue;
 use DataValues\Geo\Values\GlobeCoordinateValue;
 use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
-use DataValues\QuantityValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
-use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
-use SMW\DataModel\ContainerSemanticData;
 use SMW\DataValueFactory;
 use SMW\DataValues\ValueParsers\TimeValueParser;
-use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDataItem;
 use SMWDITime;
@@ -30,11 +26,9 @@ use Wikibase\DataModel\Entity\PropertyId;
 class DataValueTranslator {
 
 	private DataValueFactory $dataValueFactory;
-	private DIWikiPage $subject;
 
-	public function __construct( DataValueFactory $dataValueFactory, DIWikiPage $subject ) {
+	public function __construct( DataValueFactory $dataValueFactory ) {
 		$this->dataValueFactory = $dataValueFactory;
-		$this->subject = $subject;
 	}
 
 	public function translate( TypedDataValue $typedValue ): SMWDataItem {
@@ -57,9 +51,6 @@ class DataValueTranslator {
 		}
 		if ( $value instanceof DecimalValue ) {
 			return $this->translateDecimalValue( $value );
-		}
-		if ( $value instanceof UnboundedQuantityValue ) {
-			return $this->translateQuantityValue( $value );
 		}
 		if ( $value instanceof GlobeCoordinateValue ) {
 			return $this->translateGlobeCoordinateValue( $value );
@@ -112,41 +103,8 @@ class DataValueTranslator {
 		throw new \RuntimeException( 'Support for EntityId type not implemented' );
 	}
 
-	private function translateDecimalValue( DecimalValue $value ): SMWDataItem {
+	public function translateDecimalValue( DecimalValue $value ): SMWDataItem {
 		return new \SMWDINumber( $value->getValueFloat() );
-	}
-
-	private function translateQuantityValue( UnboundedQuantityValue $quantityValue ): SMWDataItem {
-		$container = new ContainerSemanticData( new DIWikiPage(
-			$this->subject->getDBkey(),
-			$this->subject->getNamespace(),
-			$this->subject->getInterwiki(),
-			'Quantity ' . $quantityValue->getHash() // TODO: Q1$d40469c7-4586-70f5-7a75-cccef9381c4c
-		) );
-
-		$container->addPropertyObjectValue(
-			new DIProperty( FixedProperties::QUANTITY_VALUE ),
-			$this->translateDecimalValue( $quantityValue->getAmount() )
-		);
-
-		$container->addPropertyObjectValue(
-			new DIProperty( FixedProperties::QUANTITY_UNIT ),
-			new \SMWDIBlob( $quantityValue->getUnit() )
-		);
-
-		if ( $quantityValue instanceof QuantityValue ) {
-			$container->addPropertyObjectValue(
-				new DIProperty( FixedProperties::QUANTITY_LOWER_BOUND ),
-				$this->translateDecimalValue( $quantityValue->getLowerBound() )
-			);
-
-			$container->addPropertyObjectValue(
-				new DIProperty( FixedProperties::QUANTITY_UPPER_BOUND ),
-				$this->translateDecimalValue( $quantityValue->getUpperBound() )
-			);
-		}
-
-		return new \SMWDIContainer( $container );
 	}
 
 	private function translateTimeValue( TimeValue $value ): \SMWDITime {
