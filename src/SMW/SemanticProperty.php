@@ -34,7 +34,7 @@ class SemanticProperty {
 	 * @return string[]
 	 */
 	public function getAliases(): array {
-		return [ $this->alias ];
+		return $this->alias === null ? [] : [ $this->alias ];
 	}
 
 }
