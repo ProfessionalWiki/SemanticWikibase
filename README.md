@@ -93,3 +93,16 @@ on the Wikibase property type. Only statements with a supported property type ar
         <td></td>
     </tr>
 </table>
+
+## Enhancement ideas
+
+Data translation:
+
+* Ability to whitelist or blacklist entities from being translated
+* Ability to whitelist or blacklist statements from being translated
+
+Properties:
+
+* Detection and possibly prevention of property name conflicts between Wikibase and SMW
+* (Multilingual) descriptions of Wikibase properties on SMW property pages
+* Grouping of Wikibase properties on Special:Browse
