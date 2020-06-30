@@ -8,6 +8,7 @@ use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;
+use Wikibase\Repo\WikibaseRepo;
 use Wikimedia\Rdbms\DBError;
 
 class UserDefinedProperties {
@@ -31,7 +32,11 @@ class UserDefinedProperties {
 				$properties[] = new SemanticProperty(
 					self::idFromWikibaseString( $id ),
 					$this->propertyTypeTranslator->translate( $propertyInfo['type'] ),
-					$id
+					$id,
+					WikibaseRepo::getDefaultInstance()->getTermLookup()->getLabel(
+						new PropertyId( $id ),
+						'en'
+					)
 				);
 			}
 		}

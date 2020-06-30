@@ -67,6 +67,10 @@ class SemanticWikibase {
 				true,
 				false
 			);
+
+			foreach ( $property->getAliases() as $alias ) {
+				$propertyRegistry->registerPropertyAlias( $property->getId(), $alias );
+			}
 		}
 	}
 

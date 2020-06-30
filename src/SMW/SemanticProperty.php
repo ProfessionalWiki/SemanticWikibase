@@ -9,11 +9,13 @@ class SemanticProperty {
 	private string $id;
 	private string $type;
 	private string $label;
+	private ?string $alias;
 
-	public function __construct( string $id, string $dvType, string $label ) {
+	public function __construct( string $id, string $dvType, string $label, ?string $alias = null ) {
 		$this->id = $id;
 		$this->type = $dvType;
 		$this->label = $label;
+		$this->alias = $alias;
 	}
 
 	public function getId(): string {
@@ -26,6 +28,13 @@ class SemanticProperty {
 
 	public function getLabel(): string {
 		return $this->label;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getAliases(): array {
+		return [ $this->alias ];
 	}
 
 }
