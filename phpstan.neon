@@ -10,5 +10,7 @@ parameters:
 		- ../SemanticMediaWiki/src
 		- ../Wikibase/repo/includes
 		- ../Wikibase/lib/includes
+	bootstrapFiles:
+		- phpstan.php
 	ignoreErrors:
 		- '#Constant .+ not found#'
