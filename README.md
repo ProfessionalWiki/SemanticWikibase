@@ -4,18 +4,26 @@ MediaWiki extension that makes Wikibase data available in Semantic MediaWiki.
 
 ## Translated data
 
-Items and properties get translated.
+Data part of Wikibase Items and properties gets translated to Semantic MediaWiki property value pairs.
+
+### Labels, descriptions, IDs, etc
 
 Translated data in the form `Wikibase datamodel element => SMW property name (SMW property type)`
 
-* EntityId => Wikibase ID (string)
-* Labels => Wikibase label (monolingual text)
-* Descriptions => Wikibase description (monolingual text)
+* EntityId => Wikibase ID (Text)
+* Labels => Wikibase label (Monolingual text)
+* Descriptions => Wikibase description (Monolingual text)
 
-Main snaks of statements also get translated. Deprecated statements are never translated.
-Normal statements are not translated if there are preferred statements. The SMW property
-name is the ID of the Wikibase property, for instance P42. The SMW property type is based
-on the Wikibase property type. Only statements with a supported property type are translated.
+### Statements
+
+When a statement is translated, only the value of the "main snak" is stored in SMW.
+
+The SMW property name is the ID of the Wikibase property, for instance P42. The label of the Wikibase
+property gets added as alias. This means both `[[P42::+]]` and `[[Capital city::+]]` are valid in SMW
+queries.
+
+Deprecated statements are never translated. Normal statements are not translated if there are preferred statements.
+The SMW property type is based on the Wikibase property type. Only statements with a supported property type are translated.
 
 ## Supported property types
 
@@ -94,12 +102,34 @@ on the Wikibase property type. Only statements with a supported property type ar
     </tr>
 </table>
 
+Currently not supported types:
+
+* Entity Schema (entity-schema) 
+* Geographic shape (geo-shape) 
+* Tabular Data (tabular-data) 
+
+## Configuration
+
+TODO: 
+$smwgNamespacesWithSemanticLinks[120] = true;
+$smwgNamespacesWithSemanticLinks[122] = true;
+
+TODO: 
+$wgExtraNamespaces[WB_NS_PROPERTY] = 'WikibaseProperty';
+$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'WikibaseProperty_talk';
+
+TODO:
+Language config for property aliases
+
 ## Enhancement ideas
 
 Data translation:
 
 * Ability to whitelist or blacklist entities from being translated
 * Ability to whitelist or blacklist statements from being translated
+* Translation of qualifiers, references, statement rank and other non-main-snak data
+* Support for Entities other than Items and Properties
+* Translation of Item sitelinks
 
 Properties:
 
