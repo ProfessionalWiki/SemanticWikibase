@@ -92,11 +92,26 @@ class ItemTranslator {
 		$dataItem = $this->statementTranslator->statementToDataItem( $statement, $this->subject );
 
 		if ( $dataItem !== null ) {
-			$this->semanticEntity->addPropertyValue(
-				UserDefinedProperties::idFromWikibaseProperty( $statement->getPropertyId() ),
-				$dataItem
-			);
+			if ( $dataItem instanceof \SMWDIContainer ) {
+				$this->semanticEntity->addPropertyValue( DIProperty::TYPE_SUBOBJECT, $dataItem );
+
+				$this->semanticEntity->addPropertyValue(
+					$this->propertyIdForStatement( $statement ),
+					$dataItem->getSemanticData()->getSubject()
+				);
+			}
+			else {
+				$this->semanticEntity->addPropertyValue(
+					$this->propertyIdForStatement( $statement ),
+					$dataItem
+				);
+			}
+
 		}
+	}
+
+	private function propertyIdForStatement( Statement $statement ): string {
+		return UserDefinedProperties::idFromWikibaseProperty( $statement->getPropertyId() );
 	}
 
 

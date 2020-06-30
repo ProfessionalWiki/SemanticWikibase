@@ -70,9 +70,9 @@ on the Wikibase property type. Only statements with a supported property type ar
     </tr>
     <tr>
         <td><strong>Quantity</strong></td>
-        <td>Record</td>
+        <td>Subobject (Page + Record)</td>
         <td>quantity</td>
-        <td>_rec</td>
+        <td>_wpg + _rec</td>
     </tr>
     <tr>
         <td><strong>String</strong></td>
