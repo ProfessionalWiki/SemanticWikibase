@@ -39,5 +39,11 @@
 		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwUpdateDataBefore"
 	},
 
+	"config": {
+		"SemanticWikibaseLanguage": {
+			"value": ""
+		}
+	},
+
 	"manifest_version": 2
 }

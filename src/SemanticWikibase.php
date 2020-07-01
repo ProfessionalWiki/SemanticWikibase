@@ -19,8 +19,19 @@ use Wikibase\Repo\WikibaseRepo;
 
 class SemanticWikibase {
 
+	private static ?self $instance;
+	private Configuration $config;
+
 	public static function getGlobalInstance(): self {
-		return new self();
+		if ( !isset( self::$instance ) ) {
+			self::$instance = new self( Configuration::newFromGlobals( $GLOBALS ) );
+		}
+
+		return self::$instance;
+	}
+
+	public function __construct( Configuration $config ) {
+		$this->config = $config;
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
@@ -101,7 +112,7 @@ class SemanticWikibase {
 			$this->getWikibaseRepo()->getWikibaseServices()->getPropertyInfoLookup(),
 			$this->getPropertyTypeTranslator(),
 			$this->getWikibaseRepo()->getTermLookup(),
-			'en'
+			$this->config->getLanguageCode()
 		);
 	}
 

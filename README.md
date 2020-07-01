@@ -110,6 +110,19 @@ Currently not supported types:
 
 ## Configuration
 
+<table>
+    <tr>
+        <th>Setting name</th>
+        <th>Default value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>$wgSemanticWikibaseLanguage</strong></td>
+        <td><i>$wgLanguageCode</i></td>
+        <td>The language used for translation of property labels</td>
+    </tr>
+</table>
+
 TODO: 
 $smwgNamespacesWithSemanticLinks[120] = true;
 $smwgNamespacesWithSemanticLinks[122] = true;
@@ -117,9 +130,6 @@ $smwgNamespacesWithSemanticLinks[122] = true;
 TODO: 
 $wgExtraNamespaces[WB_NS_PROPERTY] = 'WikibaseProperty';
 $wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'WikibaseProperty_talk';
-
-TODO:
-Language config for property aliases
 
 ## Enhancement ideas
 
