@@ -29,7 +29,7 @@ class SemanticWikibase {
 
 	public function newItemTranslator(): ItemTranslator {
 		return new ItemTranslator(
-			DataValueFactory::getInstance(),
+			$this->getDataValueFactory(),
 			$this->getStatementTranslator()
 		);
 	}
@@ -44,8 +44,12 @@ class SemanticWikibase {
 
 	private function getDataValueTranslator(): DataValueTranslator {
 		return new DataValueTranslator(
-			DataValueFactory::getInstance()
+			$this->getDataValueFactory()
 		);
+	}
+
+	private function getDataValueFactory(): DataValueFactory {
+		return DataValueFactory::getInstance();
 	}
 
 	public function getContainerValueTranslator(): ContainerValueTranslator {
@@ -55,7 +59,11 @@ class SemanticWikibase {
 	}
 
 	private function getPropertyTypeLookup(): PropertyDataTypeLookup {
-		return WikibaseRepo::getDefaultInstance()->getPropertyDataTypeLookup();
+		return $this->getWikibaseRepo()->getPropertyDataTypeLookup();
+	}
+
+	private function getWikibaseRepo(): WikibaseRepo {
+		return WikibaseRepo::getDefaultInstance();
 	}
 
 	public function registerProperties( PropertyRegistry $propertyRegistry ) {
@@ -90,8 +98,9 @@ class SemanticWikibase {
 
 	public function getUserDefinedProperties(): UserDefinedProperties {
 		return new UserDefinedProperties(
-			WikibaseRepo::getDefaultInstance()->getWikibaseServices()->getPropertyInfoLookup(),
-			$this->getPropertyTypeTranslator()
+			$this->getWikibaseRepo()->getWikibaseServices()->getPropertyInfoLookup(),
+			$this->getPropertyTypeTranslator(),
+			$this->getWikibaseRepo()->getTermLookup()
 		);
 	}
 

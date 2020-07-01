@@ -6,6 +6,7 @@ namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Services\Lookup\TermLookup;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;
 use Wikibase\Repo\WikibaseRepo;
@@ -15,10 +16,12 @@ class UserDefinedProperties {
 
 	private PropertyInfoLookup $propertyInfoLookup;
 	private PropertyTypeTranslator $propertyTypeTranslator;
+	private TermLookup $termLookup;
 
-	public function __construct( PropertyInfoLookup $propertyInfoLookup, PropertyTypeTranslator $propertyTypeTranslator ) {
+	public function __construct( PropertyInfoLookup $propertyInfoLookup, PropertyTypeTranslator $propertyTypeTranslator, TermLookup $termLookup ) {
 		$this->propertyInfoLookup = $propertyInfoLookup;
 		$this->propertyTypeTranslator = $propertyTypeTranslator;
+		$this->termLookup = $termLookup;
 	}
 
 	/**
@@ -33,7 +36,7 @@ class UserDefinedProperties {
 					self::idFromWikibaseString( $id ),
 					$this->propertyTypeTranslator->translate( $propertyInfo['type'] ),
 					$id,
-					WikibaseRepo::getDefaultInstance()->getTermLookup()->getLabel(
+					$this->termLookup->getLabel(
 						new PropertyId( $id ),
 						'en'
 					)
