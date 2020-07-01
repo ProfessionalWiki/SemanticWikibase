@@ -9,7 +9,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Services\Lookup\TermLookup;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;
-use Wikibase\Repo\WikibaseRepo;
 use Wikimedia\Rdbms\DBError;
 
 class UserDefinedProperties {
@@ -17,11 +16,15 @@ class UserDefinedProperties {
 	private PropertyInfoLookup $propertyInfoLookup;
 	private PropertyTypeTranslator $propertyTypeTranslator;
 	private TermLookup $termLookup;
+	private string $labelLanguageCode;
 
-	public function __construct( PropertyInfoLookup $propertyInfoLookup, PropertyTypeTranslator $propertyTypeTranslator, TermLookup $termLookup ) {
+	public function __construct( PropertyInfoLookup $propertyInfoLookup, PropertyTypeTranslator $propertyTypeTranslator,
+		TermLookup $termLookup, string $labelLanguageCode ) {
+
 		$this->propertyInfoLookup = $propertyInfoLookup;
 		$this->propertyTypeTranslator = $propertyTypeTranslator;
 		$this->termLookup = $termLookup;
+		$this->labelLanguageCode = $labelLanguageCode;
 	}
 
 	/**
@@ -38,7 +41,7 @@ class UserDefinedProperties {
 					$id,
 					$this->termLookup->getLabel(
 						new PropertyId( $id ),
-						'en'
+						$this->labelLanguageCode
 					)
 				);
 			}

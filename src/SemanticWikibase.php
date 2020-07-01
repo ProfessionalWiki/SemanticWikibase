@@ -100,7 +100,8 @@ class SemanticWikibase {
 		return new UserDefinedProperties(
 			$this->getWikibaseRepo()->getWikibaseServices()->getPropertyInfoLookup(),
 			$this->getPropertyTypeTranslator(),
-			$this->getWikibaseRepo()->getTermLookup()
+			$this->getWikibaseRepo()->getTermLookup(),
+			'en'
 		);
 	}
 
