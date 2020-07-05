@@ -11,6 +11,12 @@ use SMW\Store;
 
 class HookHandlers {
 
+	public static function onExtensionRegistration(): void {
+		global $smwgNamespacesWithSemanticLinks;
+		$smwgNamespacesWithSemanticLinks[WB_NS_ITEM] = true;
+		$smwgNamespacesWithSemanticLinks[WB_NS_PROPERTY] = true;
+	}
+
 	public static function onSmwInitProperties( PropertyRegistry $propertyRegistry ): void {
 		SemanticWikibase::getGlobalInstance()->registerProperties( $propertyRegistry );
 	}

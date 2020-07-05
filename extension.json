@@ -33,6 +33,8 @@
 		"MediaWiki\\Extension\\SemanticWikibase\\Tests\\": "tests/"
 	},
 
+	"callback": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onExtensionRegistration",
+
 	"Hooks": {
 		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwInitProperties",
 		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwAddCustomFixedPropertyTables",

@@ -124,12 +124,15 @@ Currently not supported types:
 </table>
 
 TODO: 
-$smwgNamespacesWithSemanticLinks[120] = true;
-$smwgNamespacesWithSemanticLinks[122] = true;
-
-TODO: 
 $wgExtraNamespaces[WB_NS_PROPERTY] = 'WikibaseProperty';
 $wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'WikibaseProperty_talk';
+
+### Disabling translation for an entity type / namespace
+
+```php
+$smwgNamespacesWithSemanticLinks[WB_NS_ITEM] = false;
+$smwgNamespacesWithSemanticLinks[WB_NS_PROPERTY] = false;
+```
 
 ## Enhancement ideas
 
