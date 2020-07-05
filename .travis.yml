@@ -1,0 +1,19 @@
+language: php
+
+services:
+  - mysql
+
+jobs:
+  fast_finish: true
+  include:
+    - env: DBTYPE=mysql; MW=master; SMW=dev-master; WB=dev-master
+      php: 7.4
+
+install: bash .travis.install.sh
+
+script:
+  - ../phase3/tests/phpunit/phpunit.php -c ../phase3/extensions/SemanticWikibase/phpunit.xml.dist
+
+cache:
+  directories:
+    - $HOME/.composer/cache
