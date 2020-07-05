@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use DataValues\DecimalValue;
+use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
 use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
@@ -140,6 +141,56 @@ class ItemTranslatorTest extends TestCase {
 		$this->assertEquals(
 			[ $expectedDataItem ],
 			$container->getSemanticData()->getPropertyValues( new DIProperty( $propertyId ) )
+		);
+	}
+
+	public function testItemLabelsAreTranslated() {
+		$item = new Item( new ItemId( 'Q1' ) );
+		$item->setLabel( 'en', 'English' );
+		$item->setLabel( 'de', 'German' );
+
+		$this->assertHasMonolingualTexts(
+			[
+				new MonolingualTextValue( 'en', 'English' ),
+				new MonolingualTextValue( 'de', 'German' )
+			],
+			$this->translate( $item )->getDataItemsForProperty( FixedProperties::LABEL )
+		);
+	}
+
+	/**
+	 * @param MonolingualTextValue[] $expected
+	 * @param \SMWDataItem[] $actual
+	 */
+	private function assertHasMonolingualTexts( array $expected, array $actual ): void {
+		$this->assertContainsOnlyInstancesOf( SMWDIContainer::class, $actual );
+		$this->assertSameSize( $expected, $actual );
+
+		foreach ( $actual as $index => $textContainer ) {
+			if ( $textContainer instanceof SMWDIContainer ) {
+				$this->assertSame(
+					$expected[$index]->getText(),
+					$textContainer->getSemanticData()->getPropertyValues( new DIProperty( '_TEXT' ) )[0]->getSerialization()
+				);
+				$this->assertSame(
+					$expected[$index]->getLanguageCode(),
+					$textContainer->getSemanticData()->getPropertyValues( new DIProperty( '_LCODE' ) )[0]->getSerialization()
+				);
+			}
+		}
+	}
+
+	public function testItemDescriptionsAreTranslated() {
+		$item = new Item( new ItemId( 'Q1' ) );
+		$item->setDescription( 'en', 'English' );
+		$item->setDescription( 'de', 'German' );
+
+		$this->assertHasMonolingualTexts(
+			[
+				new MonolingualTextValue( 'en', 'English' ),
+				new MonolingualTextValue( 'de', 'German' )
+			],
+			$this->translate( $item )->getDataItemsForProperty( FixedProperties::DESCRIPTION )
 		);
 	}
 
