@@ -1,10 +1,14 @@
 # Semantic Wikibase
 
-MediaWiki extension that makes Wikibase data available in Semantic MediaWiki.
+MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki].
+
+## Installation
+
+
 
 ## Translated data
 
-Data part of Wikibase Items and properties gets translated to Semantic MediaWiki property value pairs.
+Data part of [Wikibase Items and properties] gets translated to Semantic MediaWiki property value pairs.
 
 ### Labels, descriptions, IDs, etc
 
@@ -16,14 +20,14 @@ Translated data in the form `Wikibase datamodel element => SMW property name (SM
 
 ### Statements
 
-When a statement is translated, only the value of the "main snak" is stored in SMW.
+When a [statement] is translated, only the value of the "main snak" is stored in SMW.
 
-The SMW property name is the ID of the Wikibase property, for instance P42. The label of the Wikibase
+The [SMW property] name is the ID of the Wikibase property, for instance P42. The label of the Wikibase
 property gets added as alias. This means both `[[P42::+]]` and `[[Capital city::+]]` are valid in SMW
 queries.
 
 Deprecated statements are never translated. Normal statements are not translated if there are preferred statements.
-The SMW property type is based on the Wikibase property type. Only statements with a supported property type are translated.
+The SMW property type is based on the Wikibase property type. Only statements with a supported [property type] are translated.
 
 ## Supported property types
 
@@ -149,3 +153,10 @@ Properties:
 * Detection and possibly prevention of property name conflicts between Wikibase and SMW
 * (Multilingual) descriptions of Wikibase properties on SMW property pages
 * Grouping of Wikibase properties on Special:Browse
+
+[Semantic MediaWiki]: https://www.semantic-mediawiki.org
+[Wikibase]: https://wikiba.se
+[Wikibase Items and properties]: https://www.mediawiki.org/wiki/Wikibase/DataModel
+[statement]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Statements
+[property type]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+[SMW property]: https://www.semantic-mediawiki.org/wiki/Help:Properties_and_types
