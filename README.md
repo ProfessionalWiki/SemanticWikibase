@@ -29,6 +29,8 @@ wfLoadExtension( 'SemanticWikibase' );
 
 You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
 
+As a final step you need to configure the property namespaces. See the configuration section.
+
 ## Translated data
 
 Data part of [Wikibase Items and properties] gets translated to Semantic MediaWiki property value pairs.
@@ -138,22 +140,47 @@ Currently not supported types:
 
 ## Configuration
 
-<table>
-    <tr>
-        <th>Setting name</th>
-        <th>Default value</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><strong>$wgSemanticWikibaseLanguage</strong></td>
-        <td><i>$wgLanguageCode</i></td>
-        <td>The language used for translation of property labels</td>
-    </tr>
-</table>
+You can configure Semantic Wikibase via [LocalSettings.php].
 
-TODO: 
+### Property namespaces
+
+This is the only required configuration for setting up Semantic Wikibase.
+
+Wikibase and Semantic MediaWiki both add a Property namespace called "Property". This results in a conflict which
+can be resolved by renaming either the Wikibase property namespace or the Semantic MediaWiki property namespace.
+
+Renaming the Wikibase property namespace:
+
+```php
 $wgExtraNamespaces[WB_NS_PROPERTY] = 'WikibaseProperty';
 $wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'WikibaseProperty_talk';
+```
+
+Renaming the SMW property namespace:
+
+```php
+$wgExtensionFunctions[] = function() {
+    $GLOBALS['wgExtraNamespaces'][SMW_NS_PROPERTY] = 'SemanticProperty';
+    $GLOBALS['wgExtraNamespaces'][SMW_NS_PROPERTY_TALK] = 'SemanticProperty_talk';
+};
+```
+
+You can choose what to rename these namespaces to. They do not need to be `WikibaseProperty` and/or `SemanticProperty`.
+As long as they are not the same, Semantic Wikibase will work.
+
+### Property label language
+
+The language used for translation of property labels defaults to the wiki language (`$wgLanguageCode`).
+
+This means that if your wiki language is English, and you have a property P1 with Dutch label "lokatie" and
+English label "location", the name of the property in Semantic MediaWiki will be "location".
+
+You can specify a language different from your wiki language should be used. This is done with the
+`$wgSemanticWikibaseLanguage` setting. With the below example, the label for P1 would be "lokatie":
+
+```php
+$wgSemanticWikibaseLanguage = 'nl';
+```
 
 ### Disabling translation for an entity type / namespace
 
@@ -191,3 +218,4 @@ TODO
 [Wikibase property type]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
 [SMW property]: https://www.semantic-mediawiki.org/wiki/Help:Properties_and_types
 [Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
+[LocalSettings.php]: https://www.mediawiki.org/wiki/Manual:LocalSettings.php
