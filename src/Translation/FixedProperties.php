@@ -13,6 +13,7 @@ class FixedProperties {
 	public const ID = '___WIKIBASE_ID';
 	public const LABEL = '___WIKIBASE_LABEL';
 	public const DESCRIPTION = '___WIKIBASE_DESCRIPTION';
+	public const ALIAS = '___WIKIBASE_ALIAS';
 
 	public const QUANTITY_VALUE = '___WIKIBASE_QUANTITY';
 	public const QUANTITY_LOWER_BOUND = '___WIKIBASE_LBOUND';
@@ -34,6 +35,7 @@ class FixedProperties {
 			$this->newEntityId(),
 			$this->newLabel(),
 			$this->newDescription(),
+			$this->newAlias(),
 
 			$this->newQuantityValue(),
 			$this->newQuantityLowerBound(),
@@ -52,6 +54,10 @@ class FixedProperties {
 
 	private function newDescription(): SemanticProperty {
 		return new SemanticProperty( self::DESCRIPTION, MonolingualTextValue::TYPE_ID, 'Wikibase description' );
+	}
+
+	private function newAlias(): SemanticProperty {
+		return new SemanticProperty( self::ALIAS, MonolingualTextValue::TYPE_ID, 'Wikibase alias' );
 	}
 
 	private function newQuantityValue(): SemanticProperty {

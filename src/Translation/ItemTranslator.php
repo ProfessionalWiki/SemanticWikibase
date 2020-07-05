@@ -14,6 +14,7 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
+use Wikibase\DataModel\Term\AliasGroupList;
 use Wikibase\DataModel\Term\Term;
 use Wikibase\DataModel\Term\TermList;
 
@@ -41,6 +42,7 @@ class ItemTranslator {
 		$this->addId( $item->getId() );
 		$this->addLabels( $item->getLabels() );
 		$this->addDescriptions( $item->getDescriptions() );
+		$this->addAliases( $item->getAliasGroups() );
 		$this->addStatements( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] ) );
 
 		return $this->semanticEntity;
@@ -82,6 +84,20 @@ class ItemTranslator {
 		}
 	}
 
+	private function addAliases( AliasGroupList $aliasGroups ): void {
+		foreach ( $aliasGroups as $aliasGroup ) {
+			foreach ( $aliasGroup->getAliases() as $aliasText ) {
+				$this->semanticEntity->addPropertyValue(
+					FixedProperties::ALIAS,
+					$this->translateTerm(
+						new Term( $aliasGroup->getLanguageCode(), $aliasText ),
+						FixedProperties::DESCRIPTION
+					)
+				);
+			}
+		}
+	}
+
 	private function addStatements( StatementList $statements ): void {
 		foreach ( $statements as $statement ) {
 			$this->addStatement( $statement );
@@ -113,6 +129,5 @@ class ItemTranslator {
 	private function propertyIdForStatement( Statement $statement ): string {
 		return UserDefinedProperties::idFromWikibaseProperty( $statement->getPropertyId() );
 	}
-
 
 }

@@ -194,4 +194,19 @@ class ItemTranslatorTest extends TestCase {
 		);
 	}
 
+	public function testItemAliasesAreTranslated() {
+		$item = new Item( new ItemId( 'Q1' ) );
+		$item->setAliases( 'en', [ 'Cat', 'Kittens' ] );
+		$item->setAliases( 'de', [ 'Katze' ] );
+
+		$this->assertHasMonolingualTexts(
+			[
+				new MonolingualTextValue( 'en', 'Cat' ),
+				new MonolingualTextValue( 'en', 'Kittens' ),
+				new MonolingualTextValue( 'de', 'Katze' )
+			],
+			$this->translate( $item )->getDataItemsForProperty( FixedProperties::ALIAS )
+		);
+	}
+
 }

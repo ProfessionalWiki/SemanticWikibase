@@ -40,6 +40,7 @@ Translated data in the form `Wikibase datamodel element => SMW property name (SM
 * EntityId => Wikibase ID (Text)
 * Labels => Wikibase label (Monolingual text)
 * Descriptions => Wikibase description (Monolingual text)
+* Aliases => Wikibase alias (Monolingual text)
 
 ### Statements
 
