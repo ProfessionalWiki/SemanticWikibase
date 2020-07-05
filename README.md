@@ -4,7 +4,30 @@ MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki]
 
 ## Installation
 
+Platform requirements
 
+* PHP 7.4 or later
+* MediaWiki 1.35.x or later
+* [Semantic MediaWiki] 1.32 or later
+* [Wikibase Repository]
+
+The recommended way to install Semantic Wikibase is using [Composer](https://getcomposer.org) with
+[MediaWiki's built-in support for Composer](https://professional.wiki/en/articles/installing-mediawiki-extensions-with-composer).
+
+On the commandline, go to your wikis root directory. Then run these two commands:
+
+```shell script
+COMPOSER=composer.local.json composer require --no-update professional-wiki/semantic-wikibase:dev-master
+composer update professional-wiki/semantic-wikibase --no-dev -o
+```
+
+Then enable the extension by adding the following to the bottom of your wikis `LocalSettings.php` file:
+
+```php
+wfLoadExtension( 'SemanticWikibase' );
+```
+
+You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
 
 ## Translated data
 
@@ -27,7 +50,7 @@ property gets added as alias. This means both `[[P42::+]]` and `[[Capital city::
 queries.
 
 Deprecated statements are never translated. Normal statements are not translated if there are preferred statements.
-The SMW property type is based on the Wikibase property type. Only statements with a supported [property type] are translated.
+The SMW property type is based on the [Wikibase property type]. Only statements with a supported property type are translated.
 
 ## Supported property types
 
@@ -154,9 +177,16 @@ Properties:
 * (Multilingual) descriptions of Wikibase properties on SMW property pages
 * Grouping of Wikibase properties on Special:Browse
 
+## Release notes
+
+### Version 1.0.0
+
+TODO
+
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
 [Wikibase]: https://wikiba.se
 [Wikibase Items and properties]: https://www.mediawiki.org/wiki/Wikibase/DataModel
 [statement]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Statements
-[property type]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
+[Wikibase property type]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
 [SMW property]: https://www.semantic-mediawiki.org/wiki/Help:Properties_and_types
+[Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
