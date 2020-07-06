@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeroen De Dauw",
+			"Karsten Hoffmeyer"
+		]
+	},
+	"semantic-wb-name": "Semantic Wikibase",
+	"semantic-wb-desc": "Ermöglicht die Nutzung von mit Wikibase gespeicherter Daten mit Semantic MediaWiki"
+}
