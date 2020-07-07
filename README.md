@@ -2,14 +2,14 @@
 
 MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki].
 
-## Installation
-
-Platform requirements
+## Platform requirements
 
 * PHP 7.4 or later
 * MediaWiki 1.35.x or later
-* [Semantic MediaWiki] 1.32 or later
+* [Semantic MediaWiki] 3.2 or later
 * [Wikibase Repository]
+
+## Installation
 
 The recommended way to install Semantic Wikibase is using [Composer](https://getcomposer.org) with
 [MediaWiki's built-in support for Composer](https://professional.wiki/en/articles/installing-mediawiki-extensions-with-composer).
