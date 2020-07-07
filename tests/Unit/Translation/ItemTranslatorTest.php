@@ -8,8 +8,8 @@ use DataValues\DecimalValue;
 use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
@@ -35,8 +35,7 @@ class ItemTranslatorTest extends TestCase {
 	}
 
 	private function translate( Item $item ): SemanticEntity {
-		$translator = SemanticWikibase::getGlobalInstance()->newItemTranslator();
-		return $translator->itemToSmwValues( $item );
+		return TestFactory::newTestInstance()->newItemTranslator()->itemToSmwValues( $item );
 	}
 
 	public function testItemIdIsTranslated() {

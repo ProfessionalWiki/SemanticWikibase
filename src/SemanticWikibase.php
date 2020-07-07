@@ -20,15 +20,19 @@ use Wikibase\Repo\WikibaseRepo;
 
 class SemanticWikibase {
 
-	private static ?self $instance;
+	protected static ?self $instance;
 	private Configuration $config;
 
 	public static function getGlobalInstance(): self {
 		if ( !isset( self::$instance ) ) {
-			self::$instance = new self( Configuration::newFromGlobals( $GLOBALS ) );
+			self::$instance = self::newDefault();
 		}
 
 		return self::$instance;
+	}
+
+	protected static function newDefault(): self {
+		return new static( Configuration::newFromGlobals( $GLOBALS ) );
 	}
 
 	public function __construct( Configuration $config ) {
@@ -75,7 +79,7 @@ class SemanticWikibase {
 		);
 	}
 
-	private function getPropertyTypeLookup(): PropertyDataTypeLookup {
+	protected function getPropertyTypeLookup(): PropertyDataTypeLookup {
 		return $this->getWikibaseRepo()->getPropertyDataTypeLookup();
 	}
 
