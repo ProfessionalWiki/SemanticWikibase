@@ -31,7 +31,7 @@ cd ..
 cd ..
 
 composer require "mediawiki/semantic-media-wiki=$SMW"
-composer require "wikibase/wikibase =$WB"
+composer require "wikibase/wikibase=$WB"
 
 cat <<EOT >> composer.local.json
 {
