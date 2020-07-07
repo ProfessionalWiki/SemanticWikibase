@@ -4,9 +4,8 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
+use DataValues\MonolingualTextValue;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
-use SMW\DataValueFactory;
-use SMW\DataValues\MonolingualTextValue;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDataItem;
@@ -20,14 +19,14 @@ use Wikibase\DataModel\Term\TermList;
 
 class ItemTranslator {
 
-	private DataValueFactory $dataValueFactory;
+	private MonoTextTranslator $monoTextTranslator;
 	private StatementTranslator $statementTranslator;
 
 	private SemanticEntity $semanticEntity;
 	private DIWikiPage $subject;
 
-	public function __construct( DataValueFactory $dataValueFactory, StatementTranslator $statementTranslator ) {
-		$this->dataValueFactory = $dataValueFactory;
+	public function __construct( MonoTextTranslator $monoTextTranslator, StatementTranslator $statementTranslator ) {
+		$this->monoTextTranslator = $monoTextTranslator;
 		$this->statementTranslator = $statementTranslator;
 	}
 
@@ -59,27 +58,23 @@ class ItemTranslator {
 		foreach ( $labels as $label ) {
 			$this->semanticEntity->addPropertyValue(
 				FixedProperties::LABEL,
-				$this->translateTerm( $label, FixedProperties::LABEL )
+				$this->translateTerm( $label )
 			);
 		}
 	}
 
-	private function translateTerm( Term $term, string $propertyId ): SMWDataItem {
-		// TODO
-		return $this->dataValueFactory->newDataValueByType(
-			MonolingualTextValue::TYPE_ID,
-			$term->getText() . '@' . $term->getLanguageCode(),
-			false,
-			new DIProperty( $propertyId ),
+	private function translateTerm( Term $term ): SMWDataItem {
+		return $this->monoTextTranslator->valueToDataItem(
+			new MonolingualTextValue( $term->getLanguageCode(), $term->getText() ),
 			$this->subject
-		)->getDataItem();
+		);
 	}
 
 	private function addDescriptions( TermList $descriptions ): void {
 		foreach ( $descriptions as $description ) {
 			$this->semanticEntity->addPropertyValue(
 				FixedProperties::DESCRIPTION,
-				$this->translateTerm( $description, FixedProperties::DESCRIPTION )
+				$this->translateTerm( $description )
 			);
 		}
 	}
@@ -89,10 +84,7 @@ class ItemTranslator {
 			foreach ( $aliasGroup->getAliases() as $aliasText ) {
 				$this->semanticEntity->addPropertyValue(
 					FixedProperties::ALIAS,
-					$this->translateTerm(
-						new Term( $aliasGroup->getLanguageCode(), $aliasText ),
-						FixedProperties::DESCRIPTION
-					)
+					$this->translateTerm( new Term( $aliasGroup->getLanguageCode(), $aliasText ) )
 				);
 			}
 		}

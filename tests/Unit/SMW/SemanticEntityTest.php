@@ -4,8 +4,8 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Tests\SMW;
 
-use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -9,18 +9,13 @@ use DataValues\DataValue;
 use DataValues\DecimalValue;
 use DataValues\Geo\Values\GlobeCoordinateValue;
 use DataValues\Geo\Values\LatLongValue;
-use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
 use PHPUnit\Framework\TestCase;
-use SMW\DataValueFactory;
-use SMW\DIProperty;
 use SMW\DIWikiPage;
-use SMWDataItem;
-use SMWDIContainer;
 use SMWDIGeoCoord;
 use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityIdValue;
@@ -40,9 +35,7 @@ class DataValueTranslatorTest extends TestCase {
 	}
 
 	private function translate( DataValue $dataValue, string $propertyType = '' ): \SMWDataItem {
-		return ( new DataValueTranslator(
-			DataValueFactory::getInstance()
-		) )->translate( new TypedDataValue( $propertyType, $dataValue ) );
+		return ( new DataValueTranslator() )->translate( new TypedDataValue( $propertyType, $dataValue ) );
 	}
 
 	public function testBoolean() {
@@ -56,25 +49,6 @@ class DataValueTranslatorTest extends TestCase {
 		$this->assertEquals(
 			new \SMWDINumber( 42 ),
 			$this->translate( new NumberValue( 42 ) )
-		);
-	}
-
-	public function testMonolingualText() {
-		/**
-		 * @var SMWDIContainer $dataItem
-		 */
-		$dataItem = $this->translate( new MonolingualTextValue( 'en', 'fluffy bunnies' ) );
-
-		$this->assertSame( SMWDataItem::TYPE_CONTAINER, $dataItem->getDIType() );
-
-		$this->assertEquals(
-			[ 'fluffy bunnies' ],
-			$dataItem->getSemanticData()->getPropertyValues( new DIProperty( '_TEXT' ) )
-		);
-
-		$this->assertEquals(
-			[ 'en' ],
-			$dataItem->getSemanticData()->getPropertyValues( new DIProperty( '_LCODE' ) )
 		);
 	}
 

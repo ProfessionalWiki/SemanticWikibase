@@ -7,12 +7,10 @@ namespace MediaWiki\Extension\SemanticWikibase\Translation;
 use DataValues\BooleanValue;
 use DataValues\DecimalValue;
 use DataValues\Geo\Values\GlobeCoordinateValue;
-use DataValues\MonolingualTextValue;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use MediaWiki\Extension\SemanticWikibase\Wikibase\TypedDataValue;
-use SMW\DataValueFactory;
 use SMW\DataValues\ValueParsers\TimeValueParser;
 use SMW\DIWikiPage;
 use SMWDataItem;
@@ -25,12 +23,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 
 class DataValueTranslator {
 
-	private DataValueFactory $dataValueFactory;
-
-	public function __construct( DataValueFactory $dataValueFactory ) {
-		$this->dataValueFactory = $dataValueFactory;
-	}
-
 	public function translate( TypedDataValue $typedValue ): SMWDataItem {
 		$value = $typedValue->getValue();
 
@@ -42,9 +34,6 @@ class DataValueTranslator {
 		}
 		if ( $value instanceof NumberValue ) {
 			return new \SMWDINumber( $value->getValue() );
-		}
-		if ( $value instanceof MonolingualTextValue ) {
-			return $this->translateMonolingualTextValue( $value );
 		}
 		if ( $value instanceof EntityIdValue ) {
 			return $this->translateEntityIdValue( $value );
@@ -68,13 +57,6 @@ class DataValueTranslator {
 		}
 
 		return new \SMWDIBlob( $typedValue->getValue()->getValue() );
-	}
-
-	private function translateMonolingualTextValue( MonolingualTextValue $value ): SMWDataItem {
-		return $this->dataValueFactory->newDataValueByType(
-			\SMW\DataValues\MonolingualTextValue::TYPE_ID,
-			$value->getText() . '@' . $value->getLanguageCode(),
-		)->getDataItem();
 	}
 
 	private function translateGlobeCoordinateValue( GlobeCoordinateValue $globeValue ): \SMWDIGeoCoord {

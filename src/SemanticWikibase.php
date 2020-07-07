@@ -9,6 +9,7 @@ use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\MonoTextTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
@@ -40,7 +41,7 @@ class SemanticWikibase {
 
 	public function newItemTranslator(): ItemTranslator {
 		return new ItemTranslator(
-			$this->getDataValueFactory(),
+			$this->getMonoTextTranslator(),
 			$this->getStatementTranslator()
 		);
 	}
@@ -54,9 +55,7 @@ class SemanticWikibase {
 	}
 
 	private function getDataValueTranslator(): DataValueTranslator {
-		return new DataValueTranslator(
-			$this->getDataValueFactory()
-		);
+		return new DataValueTranslator();
 	}
 
 	private function getDataValueFactory(): DataValueFactory {
@@ -65,7 +64,14 @@ class SemanticWikibase {
 
 	public function getContainerValueTranslator(): ContainerValueTranslator {
 		return new ContainerValueTranslator(
-			$this->getDataValueTranslator()
+			$this->getDataValueTranslator(),
+			$this->getMonoTextTranslator()
+		);
+	}
+
+	public function getMonoTextTranslator(): MonoTextTranslator {
+		return new MonoTextTranslator(
+			$this->getDataValueFactory()
 		);
 	}
 

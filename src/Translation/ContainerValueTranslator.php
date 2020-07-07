@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
+use DataValues\MonolingualTextValue;
 use DataValues\QuantityValue;
 use DataValues\UnboundedQuantityValue;
 use SMW\DataModel\ContainerSemanticData;
@@ -16,9 +17,11 @@ use Wikibase\DataModel\Statement\Statement;
 class ContainerValueTranslator {
 
 	private DataValueTranslator $dataValueTranslator;
+	private MonoTextTranslator $monoTextTranslator;
 
-	public function __construct( DataValueTranslator $dataValueTranslator ) {
+	public function __construct( DataValueTranslator $dataValueTranslator, MonoTextTranslator $monoTextTranslator ) {
 		$this->dataValueTranslator = $dataValueTranslator;
+		$this->monoTextTranslator = $monoTextTranslator;
 	}
 
 	public function supportsStatement( Statement $statement ): bool {
@@ -26,7 +29,8 @@ class ContainerValueTranslator {
 
 		if ( $mainSnak instanceof PropertyValueSnak ) {
 			$value = $mainSnak->getDataValue();
-			return $value instanceof UnboundedQuantityValue;
+			return $value instanceof UnboundedQuantityValue
+				|| $value instanceof MonolingualTextValue;
 		}
 
 		return false;
@@ -40,6 +44,11 @@ class ContainerValueTranslator {
 		}
 
 		$dataValue = $mainSnak->getDataValue();
+
+		if ( $dataValue instanceof MonolingualTextValue ) {
+			return $this->translateMonolingualTextValue( $dataValue, $subject );
+		}
+
 		$container = $this->newContainerSemanticData( $statement, $subject );
 
 		if ( $dataValue instanceof UnboundedQuantityValue ) {
@@ -82,6 +91,10 @@ class ContainerValueTranslator {
 		}
 
 		return new SMWDIContainer( $container );
+	}
+
+	private function translateMonolingualTextValue( MonolingualTextValue $value, DIWikiPage $subject ): SMWDIContainer {
+		return $this->monoTextTranslator->valueToDataItem( $value, $subject );
 	}
 
 }
