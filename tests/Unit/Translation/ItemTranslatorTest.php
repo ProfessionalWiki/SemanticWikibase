@@ -9,9 +9,9 @@ use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
 use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
+use MediaWiki\Extension\SemanticWikibase\Tests\SWBTestCase;
 use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
-use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIContainer;
@@ -27,7 +27,7 @@ use Wikibase\DataModel\Snak\PropertyValueSnak;
  * @covers \MediaWiki\Extension\SemanticWikibase\Translation\StatementListTranslator
  * @covers \MediaWiki\Extension\SemanticWikibase\Translation\FingerprintTranslator
  */
-class ItemTranslatorTest extends TestCase {
+class ItemTranslatorTest extends SWBTestCase {
 
 	public function testEmptyItem() {
 		$this->assertSame(
@@ -159,28 +159,6 @@ class ItemTranslatorTest extends TestCase {
 			],
 			$this->translate( $item )->getDataItemsForProperty( FixedProperties::LABEL )
 		);
-	}
-
-	/**
-	 * @param MonolingualTextValue[] $expected
-	 * @param \SMWDataItem[] $actual
-	 */
-	private function assertHasMonolingualTexts( array $expected, array $actual ): void {
-		$this->assertContainsOnlyInstancesOf( SMWDIContainer::class, $actual );
-		$this->assertSameSize( $expected, $actual );
-
-		foreach ( $actual as $index => $textContainer ) {
-			if ( $textContainer instanceof SMWDIContainer ) {
-				$this->assertSame(
-					$expected[$index]->getText(),
-					$textContainer->getSemanticData()->getPropertyValues( new DIProperty( '_TEXT' ) )[0]->getSerialization()
-				);
-				$this->assertSame(
-					$expected[$index]->getLanguageCode(),
-					$textContainer->getSemanticData()->getPropertyValues( new DIProperty( '_LCODE' ) )[0]->getSerialization()
-				);
-			}
-		}
 	}
 
 	public function testItemDescriptionsAreTranslated() {
