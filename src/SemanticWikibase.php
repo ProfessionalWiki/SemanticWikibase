@@ -31,7 +31,7 @@ class SemanticWikibase {
 		return new static( Configuration::newFromGlobals( $GLOBALS ) );
 	}
 
-	public function __construct( Configuration $config ) {
+	public final function __construct( Configuration $config ) {
 		$this->config = $config;
 	}
 
