@@ -41,6 +41,10 @@ class TestFactory extends SemanticWikibase {
 		return $lookup;
 	}
 
+	public function newPropertyTranslator( DIWikiPage $subject ) {
+		return $this->getTranslatorFactory()->newPropertyTranslator( $subject );
+	}
+
 	protected function getPropertyTypeLookup(): PropertyDataTypeLookup {
 		return $this->propertyDataTypeLookup;
 	}
