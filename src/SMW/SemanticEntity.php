@@ -42,4 +42,21 @@ class SemanticEntity {
 		return $semanticData;
 	}
 
+	public function functionalMerge( self $entity ): self {
+		$merged = new SemanticEntity();
+
+		$merged->add( $this );
+		$merged->add( $entity );
+
+		return $merged;
+	}
+
+	public function add( self $entity ): void {
+		foreach ( $entity->dataItemsPerProperty as $propertyId => $dataItems ) {
+			foreach ( $dataItems as $dataItem ) {
+				$this->addPropertyValue( $propertyId, $dataItem );
+			}
+		}
+	}
+
 }

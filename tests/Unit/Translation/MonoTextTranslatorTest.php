@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 
 use DataValues\MonolingualTextValue;
-use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
+use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
@@ -21,7 +21,7 @@ class MonoTextTranslatorTest extends TestCase {
 	private const SUBJECT_TITLE = 'Q12345';
 
 	public function testMonolingualText() {
-		$translator = SemanticWikibase::getGlobalInstance()->getMonoTextTranslator();
+		$translator = TestFactory::newTestInstance()->getMonoTextTranslator();
 
 		$subject = new DIWikiPage( self::SUBJECT_TITLE, WB_NS_ITEM );
 

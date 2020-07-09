@@ -43,4 +43,51 @@ class SemanticEntityTest extends TestCase {
 		);
 	}
 
+	public function testMergeWithSameProperties() {
+		$entity1 = new SemanticEntity();
+		$entity1->addPropertyValue( FixedProperties::LABEL, new \SMWDIBlob( 'hi' ) );
+
+		$entity2 = new SemanticEntity();
+		$entity2->addPropertyValue( FixedProperties::LABEL, new \SMWDIBlob( 'there' ) );
+
+		$this->assertEquals(
+			[ new \SMWDIBlob( 'hi' ), new \SMWDIBlob( 'there' ) ],
+			$entity1->functionalMerge( $entity2 )->getDataItemsForProperty( FixedProperties::LABEL )
+		);
+	}
+
+	public function testMergeWithDifferentProperties() {
+		$entity1 = new SemanticEntity();
+		$entity1->addPropertyValue( FixedProperties::LABEL, new \SMWDIBlob( 'hi' ) );
+
+		$entity2 = new SemanticEntity();
+		$entity2->addPropertyValue( FixedProperties::DESCRIPTION, new \SMWDIBlob( 'there' ) );
+
+		$merged = $entity1->functionalMerge( $entity2 );
+
+		$this->assertEquals(
+			[ new \SMWDIBlob( 'hi' ) ],
+			$merged->getDataItemsForProperty( FixedProperties::LABEL )
+		);
+
+		$this->assertEquals(
+			[ new \SMWDIBlob( 'there' ) ],
+			$merged->getDataItemsForProperty( FixedProperties::DESCRIPTION )
+		);
+	}
+
+	public function testMergeIsFunctional() {
+		$entity1 = new SemanticEntity();
+
+		$entity2 = new SemanticEntity();
+		$entity2->addPropertyValue( FixedProperties::DESCRIPTION, new \SMWDIBlob( 'there' ) );
+
+		$entity1->functionalMerge( $entity2 );
+
+		$this->assertSame(
+			[],
+			$entity1->getDataItemsForProperty( FixedProperties::DESCRIPTION )
+		);
+	}
+
 }

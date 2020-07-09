@@ -4,21 +4,12 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
-use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
-use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\FingerprintTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
-use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\MonoTextTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
-use MediaWiki\Extension\SemanticWikibase\Translation\TermTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\TranslatorFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use SMW\DataValueFactory;
-use SMW\DIWikiPage;
 use SMW\PropertyRegistry;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
@@ -45,55 +36,22 @@ class SemanticWikibase {
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
-		return new SemanticDataUpdate( $this->newItemTranslator(), $this->newPropertyTranslator() );
-	}
-
-	public function newItemTranslator(): ItemTranslator {
-		return new ItemTranslator(
-			$this->getStatementTranslator()
+		return new SemanticDataUpdate(
+			$this->getTranslatorFactory(),
+			$this->getWikibaseRepo()->getItemLookup(),
+			$this->getWikibaseRepo()->getPropertyLookup()
 		);
 	}
 
-	public function newPropertyTranslator(): PropertyTranslator {
-		return new PropertyTranslator(
-			$this->getStatementTranslator()
-		);
-	}
-
-	public function newFingerprintTranslator( SemanticEntity $semanticEntity, DIWikiPage $subject ) {
-		return new FingerprintTranslator(
-			$semanticEntity,
-			new TermTranslator( $this->getMonoTextTranslator(), $subject )
-		);
-	}
-
-	public function getStatementTranslator(): StatementTranslator {
-		return new StatementTranslator(
-			$this->getDataValueTranslator(),
-			$this->getContainerValueTranslator(),
+	protected function getTranslatorFactory(): TranslatorFactory {
+		return new TranslatorFactory(
+			$this->getDataValueFactory(),
 			$this->getPropertyTypeLookup()
 		);
 	}
 
-	private function getDataValueTranslator(): DataValueTranslator {
-		return new DataValueTranslator();
-	}
-
 	private function getDataValueFactory(): DataValueFactory {
 		return DataValueFactory::getInstance();
-	}
-
-	public function getContainerValueTranslator(): ContainerValueTranslator {
-		return new ContainerValueTranslator(
-			$this->getDataValueTranslator(),
-			$this->getMonoTextTranslator()
-		);
-	}
-
-	public function getMonoTextTranslator(): MonoTextTranslator {
-		return new MonoTextTranslator(
-			$this->getDataValueFactory()
-		);
 	}
 
 	protected function getPropertyTypeLookup(): PropertyDataTypeLookup {

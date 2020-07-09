@@ -24,6 +24,8 @@ use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
  * @covers \MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translation\StatementListTranslator
+ * @covers \MediaWiki\Extension\SemanticWikibase\Translation\FingerprintTranslator
  */
 class ItemTranslatorTest extends TestCase {
 
@@ -35,7 +37,9 @@ class ItemTranslatorTest extends TestCase {
 	}
 
 	private function translate( Item $item ): SemanticEntity {
-		return TestFactory::newTestInstance()->newItemTranslator()->itemToSmwValues( $item );
+		return TestFactory::newTestInstance()->newItemTranslator(
+			DIWikiPage::newFromTitle( \Title::newFromText( 'Item:Q1' ) )
+		)->translateItem( $item );
 	}
 
 	public function testItemIdIsTranslated() {

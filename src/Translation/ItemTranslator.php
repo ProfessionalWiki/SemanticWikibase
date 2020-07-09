@@ -4,86 +4,39 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
-use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
-use SMW\DIProperty;
-use SMW\DIWikiPage;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\DataModel\Statement\Statement;
-use Wikibase\DataModel\Statement\StatementList;
-use Wikibase\DataModel\Term\Fingerprint;
 
 class ItemTranslator {
 
-	private StatementTranslator $statementTranslator;
+	private FingerprintTranslator $fingerprintTranslator;
+	private StatementListTranslator $statementListTranslator;
 
-	private SemanticEntity $semanticEntity;
-	private DIWikiPage $subject;
-
-
-	public function __construct( StatementTranslator $statementTranslator ) {
-		$this->statementTranslator = $statementTranslator;
+	public function __construct( FingerprintTranslator $fingerprintTranslator, StatementListTranslator $statementListTranslator ) {
+		$this->fingerprintTranslator = $fingerprintTranslator;
+		$this->statementListTranslator = $statementListTranslator;
 	}
 
-	public function itemToSmwValues( Item $item ): SemanticEntity {
+	public function translateItem( Item $item ): SemanticEntity {
+		$semanticEntity = new SemanticEntity();
+
 		if ( $item->getId() === null ) {
-			return new SemanticEntity();
+			return $semanticEntity;
 		}
 
-		$this->semanticEntity = new SemanticEntity();
-		$this->subject = DIWikiPage::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM );
+		$this->addId( $semanticEntity, $item->getId() );
+		$semanticEntity->add( $this->fingerprintTranslator->translateFingerprint( $item->getFingerprint() ) );
+		$semanticEntity->add( $this->statementListTranslator->translateStatements( $item->getStatements() ) );
 
-		$this->addId( $item->getId() );
-		$this->addFingerprint( $item->getFingerprint() );
-		$this->addStatements( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] ) );
-
-		return $this->semanticEntity;
+		return $semanticEntity;
 	}
 
-	private function addId( ItemId $itemId ): void {
-		$this->semanticEntity->addPropertyValue(
+	private function addId( SemanticEntity $semanticEntity, ItemId $itemId ): void {
+		$semanticEntity->addPropertyValue(
 			FixedProperties::ID,
 			new \SMWDIBlob( $itemId->getSerialization() )
 		);
-	}
-
-	private function addFingerprint( Fingerprint $fingerprint ): void {
-		SemanticWikibase::getGlobalInstance()
-			->newFingerprintTranslator( $this->semanticEntity, $this->subject )
-			->addFingerprintValues( $fingerprint );
-	}
-
-	private function addStatements( StatementList $statements ): void {
-		foreach ( $statements as $statement ) {
-			$this->addStatement( $statement );
-		}
-	}
-
-	private function addStatement( Statement $statement ): void {
-		$dataItem = $this->statementTranslator->statementToDataItem( $statement, $this->subject );
-
-		if ( $dataItem !== null ) {
-			if ( $dataItem instanceof \SMWDIContainer ) {
-				$this->semanticEntity->addPropertyValue( DIProperty::TYPE_SUBOBJECT, $dataItem );
-
-				$this->semanticEntity->addPropertyValue(
-					$this->propertyIdForStatement( $statement ),
-					$dataItem->getSemanticData()->getSubject()
-				);
-			}
-			else {
-				$this->semanticEntity->addPropertyValue(
-					$this->propertyIdForStatement( $statement ),
-					$dataItem
-				);
-			}
-
-		}
-	}
-
-	private function propertyIdForStatement( Statement $statement ): string {
-		return UserDefinedProperties::idFromWikibaseProperty( $statement->getPropertyId() );
 	}
 
 }

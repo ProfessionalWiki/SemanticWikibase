@@ -8,6 +8,7 @@ use DataValues\DecimalValue;
 use DataValues\StringValue;
 use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
+use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
 use PHPUnit\Framework\TestCase;
@@ -69,7 +70,7 @@ class StatementTranslatorTest extends TestCase {
 	}
 
 	private function newTranslator(): StatementTranslator {
-		return SemanticWikibase::getGlobalInstance()->getStatementTranslator();
+		return TestFactory::newTestInstance()->getStatementTranslator();
 	}
 
 	private function getSubject(): DIWikiPage {

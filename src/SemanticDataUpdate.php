@@ -7,26 +7,31 @@ namespace MediaWiki\Extension\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\TranslatorFactory;
+use SMW\DIWikiPage;
 use SMW\SemanticData;
 use Title;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
-use Wikibase\Repo\WikibaseRepo;
+use Wikibase\DataModel\Services\Lookup\ItemLookup;
+use Wikibase\DataModel\Services\Lookup\PropertyLookup;
 
 class SemanticDataUpdate {
 
-	private ItemTranslator $itemTranslator;
-	private PropertyTranslator $propertyTranslator;
+	private TranslatorFactory $translatorFactory;
+	private ItemLookup $itemLookup;
+	private PropertyLookup $propertyLookup;
 
-	public function __construct( ItemTranslator $itemTranslator, PropertyTranslator $propertyTranslator ) {
-		$this->itemTranslator = $itemTranslator;
-		$this->propertyTranslator = $propertyTranslator;
+	public function __construct( TranslatorFactory $translatorFactory, ItemLookup $itemLookup, PropertyLookup $propertyLookup ) {
+		$this->translatorFactory = $translatorFactory;
+		$this->itemLookup = $itemLookup;
+		$this->propertyLookup = $propertyLookup;
 	}
 
 	public function run( SemanticData $semanticData ): void {
 		$title = $semanticData->getSubject()->getTitle();
 
-		if ( $title === null || !$this->isSupportedWikibaseTitle( $title ) ) {
+		if ( $title === null ) {
 			return;
 		}
 
@@ -35,29 +40,36 @@ class SemanticDataUpdate {
 		);
 	}
 
-	private function isSupportedWikibaseTitle( Title $title ): bool {
-		return $title->getNamespace() === WB_NS_ITEM
-			|| $title->getNamespace() === WB_NS_PROPERTY;
+	private function getSemanticEntityFromTitle( Title $title ): SemanticEntity {
+		if ( $title->getNamespace() === WB_NS_ITEM ) {
+			return $this->getSemanticEntityForItemTitle( $title );
+		}
+
+		if ( $title->getNamespace() === WB_NS_PROPERTY ) {
+			return $this->getSemanticEntityForPropertyTitle( $title );
+		}
+
+		return new SemanticEntity();
 	}
 
-	private function getSemanticEntityFromTitle( Title $title ): ?SemanticEntity {
-		if ( $title->getNamespace() === WB_NS_ITEM ) {
-			$item = WikibaseRepo::getDefaultInstance()->getItemLookup()->getItemForId( new ItemId( $title->getText() ) );
+	private function getSemanticEntityForItemTitle( Title $title ): SemanticEntity {
+		return $this->newItemTranslator( $title )->translateItem(
+			$this->itemLookup->getItemForId( new ItemId( $title->getText() ) )
+		);
+	}
 
-			if ( $item === null ) {
-				return null;
-			}
+	private function newItemTranslator( Title $title ): ItemTranslator {
+		return $this->translatorFactory->newItemTranslator( DIWikiPage::newFromTitle( $title ) );
+	}
 
-			return $this->itemTranslator->itemToSmwValues( $item );
-		}
+	private function getSemanticEntityForPropertyTitle( Title $title ): SemanticEntity {
+		return $this->newPropertyTranslator( $title )->translateProperty(
+			$this->propertyLookup->getPropertyForId( new PropertyId( $title->getText() ) )
+		);
+	}
 
-		$property = WikibaseRepo::getDefaultInstance()->getPropertyLookup()->getPropertyForId( new PropertyId( $title->getText() ) );
-
-		if ( $property === null ) {
-			return null;
-		}
-
-		return $this->propertyTranslator->propertyToSmwValues( $property );
+	private function newPropertyTranslator( Title $title ): PropertyTranslator {
+		return $this->translatorFactory->newPropertyTranslator( DIWikiPage::newFromTitle( $title ) );
 	}
 
 }

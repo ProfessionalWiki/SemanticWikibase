@@ -13,23 +13,25 @@ use Wikibase\DataModel\Term\TermList;
 
 class FingerprintTranslator {
 
-	private SemanticEntity $semanticEntity;
 	private TermTranslator $termTranslator;
 
-	public function __construct( SemanticEntity $semanticEntity, TermTranslator $termTranslator ) {
-		$this->semanticEntity = $semanticEntity;
+	public function __construct( TermTranslator $termTranslator ) {
 		$this->termTranslator = $termTranslator;
 	}
 
-	public function addFingerprintValues( Fingerprint $fingerprint ) {
-		$this->addLabels( $fingerprint->getLabels() );
-		$this->addDescriptions( $fingerprint->getDescriptions() );
-		$this->addAliases( $fingerprint->getAliasGroups() );
+	public function translateFingerprint( Fingerprint $fingerprint ): SemanticEntity {
+		$semanticEntity = new SemanticEntity();
+
+		$this->addLabels( $semanticEntity, $fingerprint->getLabels() );
+		$this->addDescriptions( $semanticEntity, $fingerprint->getDescriptions() );
+		$this->addAliases( $semanticEntity, $fingerprint->getAliasGroups() );
+
+		return $semanticEntity;
 	}
 
-	private function addLabels( TermList $labels ): void {
+	private function addLabels( SemanticEntity $semanticEntity, TermList $labels ): void {
 		foreach ( $labels as $label ) {
-			$this->semanticEntity->addPropertyValue(
+			$semanticEntity->addPropertyValue(
 				FixedProperties::LABEL,
 				$this->translateTerm( $label )
 			);
@@ -40,19 +42,19 @@ class FingerprintTranslator {
 		return $this->termTranslator->translateTerm( $term );
 	}
 
-	private function addDescriptions( TermList $descriptions ): void {
+	private function addDescriptions( SemanticEntity $semanticEntity, TermList $descriptions ): void {
 		foreach ( $descriptions as $description ) {
-			$this->semanticEntity->addPropertyValue(
+			$semanticEntity->addPropertyValue(
 				FixedProperties::DESCRIPTION,
 				$this->translateTerm( $description )
 			);
 		}
 	}
 
-	private function addAliases( AliasGroupList $aliasGroups ): void {
+	private function addAliases( SemanticEntity $semanticEntity, AliasGroupList $aliasGroups ): void {
 		foreach ( $aliasGroups as $aliasGroup ) {
 			foreach ( $aliasGroup->getAliases() as $aliasText ) {
-				$this->semanticEntity->addPropertyValue(
+				$semanticEntity->addPropertyValue(
 					FixedProperties::ALIAS,
 					$this->translateTerm( new Term( $aliasGroup->getLanguageCode(), $aliasText ) )
 				);

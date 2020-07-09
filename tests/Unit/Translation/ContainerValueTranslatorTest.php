@@ -9,6 +9,7 @@ use DataValues\DecimalValue;
 use DataValues\QuantityValue;
 use DataValues\UnboundedQuantityValue;
 use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
+use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use PHPUnit\Framework\TestCase;
@@ -100,7 +101,7 @@ class ContainerValueTranslatorTest extends TestCase {
 	}
 
 	private function newTranslator(): ContainerValueTranslator {
-		return SemanticWikibase::getGlobalInstance()->getContainerValueTranslator();
+		return TestFactory::newTestInstance()->getContainerValueTranslator();
 	}
 
 	private function getSubject(): DIWikiPage {
