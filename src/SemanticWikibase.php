@@ -4,16 +4,21 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase;
 
+use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
 use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\FingerprintTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\MonoTextTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\PropertyTypeTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
+use MediaWiki\Extension\SemanticWikibase\Translation\TermTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use SMW\DataValueFactory;
+use SMW\DIWikiPage;
 use SMW\PropertyRegistry;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
@@ -40,13 +45,25 @@ class SemanticWikibase {
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
-		return new SemanticDataUpdate( $this->newItemTranslator() );
+		return new SemanticDataUpdate( $this->newItemTranslator(), $this->newPropertyTranslator() );
 	}
 
 	public function newItemTranslator(): ItemTranslator {
 		return new ItemTranslator(
-			$this->getMonoTextTranslator(),
 			$this->getStatementTranslator()
+		);
+	}
+
+	public function newPropertyTranslator(): PropertyTranslator {
+		return new PropertyTranslator(
+			$this->getStatementTranslator()
+		);
+	}
+
+	public function newFingerprintTranslator( SemanticEntity $semanticEntity, DIWikiPage $subject ) {
+		return new FingerprintTranslator(
+			$semanticEntity,
+			new TermTranslator( $this->getMonoTextTranslator(), $subject )
 		);
 	}
 

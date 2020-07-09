@@ -4,29 +4,25 @@ declare( strict_types = 1 );
 
 namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
-use DataValues\MonolingualTextValue;
+use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
-use SMWDataItem;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
-use Wikibase\DataModel\Term\AliasGroupList;
-use Wikibase\DataModel\Term\Term;
-use Wikibase\DataModel\Term\TermList;
+use Wikibase\DataModel\Term\Fingerprint;
 
 class ItemTranslator {
 
-	private MonoTextTranslator $monoTextTranslator;
 	private StatementTranslator $statementTranslator;
 
 	private SemanticEntity $semanticEntity;
 	private DIWikiPage $subject;
 
-	public function __construct( MonoTextTranslator $monoTextTranslator, StatementTranslator $statementTranslator ) {
-		$this->monoTextTranslator = $monoTextTranslator;
+
+	public function __construct( StatementTranslator $statementTranslator ) {
 		$this->statementTranslator = $statementTranslator;
 	}
 
@@ -39,9 +35,7 @@ class ItemTranslator {
 		$this->subject = DIWikiPage::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM );
 
 		$this->addId( $item->getId() );
-		$this->addLabels( $item->getLabels() );
-		$this->addDescriptions( $item->getDescriptions() );
-		$this->addAliases( $item->getAliasGroups() );
+		$this->addFingerprint( $item->getFingerprint() );
 		$this->addStatements( $item->getStatements()->getBestStatements()->getByRank( [ Statement::RANK_PREFERRED, Statement::RANK_NORMAL ] ) );
 
 		return $this->semanticEntity;
@@ -54,40 +48,10 @@ class ItemTranslator {
 		);
 	}
 
-	private function addLabels( TermList $labels ): void {
-		foreach ( $labels as $label ) {
-			$this->semanticEntity->addPropertyValue(
-				FixedProperties::LABEL,
-				$this->translateTerm( $label )
-			);
-		}
-	}
-
-	private function translateTerm( Term $term ): SMWDataItem {
-		return $this->monoTextTranslator->valueToDataItem(
-			new MonolingualTextValue( $term->getLanguageCode(), $term->getText() ),
-			$this->subject
-		);
-	}
-
-	private function addDescriptions( TermList $descriptions ): void {
-		foreach ( $descriptions as $description ) {
-			$this->semanticEntity->addPropertyValue(
-				FixedProperties::DESCRIPTION,
-				$this->translateTerm( $description )
-			);
-		}
-	}
-
-	private function addAliases( AliasGroupList $aliasGroups ): void {
-		foreach ( $aliasGroups as $aliasGroup ) {
-			foreach ( $aliasGroup->getAliases() as $aliasText ) {
-				$this->semanticEntity->addPropertyValue(
-					FixedProperties::ALIAS,
-					$this->translateTerm( new Term( $aliasGroup->getLanguageCode(), $aliasText ) )
-				);
-			}
-		}
+	private function addFingerprint( Fingerprint $fingerprint ): void {
+		SemanticWikibase::getGlobalInstance()
+			->newFingerprintTranslator( $this->semanticEntity, $this->subject )
+			->addFingerprintValues( $fingerprint );
 	}
 
 	private function addStatements( StatementList $statements ): void {
