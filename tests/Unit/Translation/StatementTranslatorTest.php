@@ -7,7 +7,6 @@ namespace MediaWiki\Extension\SemanticWikibase\Tests\Translation;
 use DataValues\DecimalValue;
 use DataValues\StringValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;

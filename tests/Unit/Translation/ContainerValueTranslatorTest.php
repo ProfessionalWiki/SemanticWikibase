@@ -8,7 +8,6 @@ use DataValues\BooleanValue;
 use DataValues\DecimalValue;
 use DataValues\QuantityValue;
 use DataValues\UnboundedQuantityValue;
-use MediaWiki\Extension\SemanticWikibase\SemanticWikibase;
 use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\ContainerValueTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
