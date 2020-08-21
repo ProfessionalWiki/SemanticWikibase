@@ -5,11 +5,13 @@ MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki]
 ## Platform requirements
 
 * PHP 7.4 or later
-* MediaWiki 1.35.x or later
-* [Semantic MediaWiki] 3.2 or later
-* [Wikibase Repository]
+* MediaWiki 1.35.x
+* [Semantic MediaWiki] 3.2.x
+* [Wikibase Repository] branch: REL1_35
 
 ## Installation
+
+First install MediaWiki, Semantic MediaWiki and Wikibase Repository.
 
 The recommended way to install Semantic Wikibase is using [Composer](https://getcomposer.org) with
 [MediaWiki's built-in support for Composer](https://professional.wiki/en/articles/installing-mediawiki-extensions-with-composer).
@@ -17,7 +19,7 @@ The recommended way to install Semantic Wikibase is using [Composer](https://get
 On the commandline, go to your wikis root directory. Then run these two commands:
 
 ```shell script
-COMPOSER=composer.local.json composer require --no-update professional-wiki/semantic-wikibase:dev-master
+COMPOSER=composer.local.json composer require --no-update professional-wiki/semantic-wikibase:*
 composer update professional-wiki/semantic-wikibase --no-dev -o
 ```
 
