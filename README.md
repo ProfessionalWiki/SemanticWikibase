@@ -126,12 +126,6 @@ The SMW property type is based on the [Wikibase property type]. Only statements 
         <td>url</td>
         <td>_uri</td>
     </tr>
-    <tr>
-        <td><strong></strong></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
 </table>
 
 Currently not supported types:
@@ -209,9 +203,11 @@ Properties:
 
 ## Release notes
 
-### Version 1.0.0
+### Version 0.1
 
-TODO
+Released on October 22, 2020
+
+* Initial release with support for main snaks and most data types
 
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
 [Wikibase]: https://wikiba.se
