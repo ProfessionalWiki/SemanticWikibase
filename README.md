@@ -2,6 +2,9 @@
 
 MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki].
 
+Semantic Wikibase was created by [Professional.Wiki] with help from
+[Frans AL van der Horst](https://www.linkedin.com/in/frans-a-l-van-der-horst-95a3836/).
+
 ## Platform requirements
 
 * PHP 7.4 or later
@@ -201,6 +204,8 @@ Properties:
 * (Multilingual) descriptions of Wikibase properties on SMW property pages
 * Grouping of Wikibase properties on Special:Browse
 
+[Professional.Wiki] provides commercial [MediaWiki development] services.
+
 ## Release notes
 
 ### Version 0.1
@@ -209,6 +214,7 @@ Released on October 22, 2020
 
 * Initial release with support for main snaks and most data types
 
+[Professional.Wiki]: https://professional.wiki
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
 [Wikibase]: https://wikiba.se
 [Wikibase Items and properties]: https://www.mediawiki.org/wiki/Wikibase/DataModel
@@ -217,3 +223,4 @@ Released on October 22, 2020
 [SMW property]: https://www.semantic-mediawiki.org/wiki/Help:Properties_and_types
 [Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
 [LocalSettings.php]: https://www.mediawiki.org/wiki/Manual:LocalSettings.php
+[MediaWiki development]: https://professional.wiki/en/mediawiki-development
