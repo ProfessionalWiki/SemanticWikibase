@@ -7,8 +7,8 @@ Semantic Wikibase was created by [Professional.Wiki] with help from
 
 ## Platform requirements
 
-* PHP 7.4 or later
-* MediaWiki 1.35.x
+* [PHP] 7.4 or later
+* [MediaWiki] 1.35.x
 * [Semantic MediaWiki] 3.2.x
 * [Wikibase Repository] branch: REL1_35
 
@@ -217,6 +217,8 @@ Released on October 22, 2020
 [Professional.Wiki]: https://professional.wiki
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
 [Wikibase]: https://wikiba.se
+[MediaWiki]: https://www.mediawiki.org
+[PHP]: https://www.php.net
 [Wikibase Items and properties]: https://www.mediawiki.org/wiki/Wikibase/DataModel
 [statement]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Statements
 [Wikibase property type]: https://www.mediawiki.org/wiki/Wikibase/DataModel#Datatypes_and_their_Values
