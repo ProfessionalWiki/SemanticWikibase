@@ -210,7 +210,7 @@ Properties:
 
 ### Version 0.1
 
-Released on October 22, 2020
+Released on September 3, 2020
 
 * Initial release with support for main snaks and most data types
 
