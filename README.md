@@ -212,7 +212,7 @@ Properties:
 
 Released on September 3, 2020
 
-* Initial release with support for main snaks and most data types
+* [Initial release with support for main snaks and most data types](https://professional.wiki/en/news/semantic-wikibase-released)
 
 [Professional.Wiki]: https://professional.wiki
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
