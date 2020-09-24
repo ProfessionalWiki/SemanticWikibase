@@ -29,7 +29,6 @@
 		}
 	],
 	"support": {
-		"irc": "irc://irc.freenode.net/mediawiki",
 		"source": "https://github.com/ProfessionalWiki/SemanticWikibase/issues"
 	},
 	"require": {
