@@ -226,4 +226,4 @@ Released on September 3, 2020
 [Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
 [LocalSettings.php]: https://www.mediawiki.org/wiki/Manual:LocalSettings.php
 [MediaWiki development]: https://professional.wiki/en/mediawiki-development
-[Wikibase hosting]: https://professional.wiki/en/hosting
+[managed wiki hosting]: https://professional.wiki/en/hosting
