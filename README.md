@@ -5,6 +5,10 @@ MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki]
 Semantic Wikibase was created by [Professional.Wiki] with help from
 [Frans AL van der Horst](https://www.linkedin.com/in/frans-a-l-van-der-horst-95a3836/).
 
+## Demo
+
+<a href="https://www.youtube.com/watch?v=ovZl_ZoGkc0"><img src=".github/youtube.png" width="350px" title="Play video" /></a>
+
 ## Platform requirements
 
 * [PHP] 7.4 or later
