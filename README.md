@@ -171,6 +171,13 @@ $wgExtensionFunctions[] = function() {
 You can choose what to rename these namespaces to. They do not need to be `WikibaseProperty` and/or `SemanticProperty`.
 As long as they are not the same, Semantic Wikibase will work.
 
+You will likely need to set these extra permissions to avoid getting errors when creating new items or properties:
+
+```php
+$wgGroupPermissions['user']['item-create'] = true;
+$wgGroupPermissions['user']['property-create'] = true;
+```
+
 ### Property label language
 
 The language used for translation of property labels defaults to the wiki language (`$wgLanguageCode`).
