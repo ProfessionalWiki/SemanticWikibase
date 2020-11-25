@@ -17,7 +17,7 @@
 	"requires": {
 		"MediaWiki": ">= 1.35.0",
 		"extensions": {
-			"SemanticMediaWiki": "~3.1",
+			"SemanticMediaWiki": ">=3.1",
 			"WikibaseRepository": "*"
 		}
 	},
