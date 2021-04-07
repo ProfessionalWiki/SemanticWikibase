@@ -11,6 +11,8 @@ use MediaWiki\Extension\SemanticWikibase\Translation\TranslatorFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\UserDefinedProperties;
 use SMW\DataValueFactory;
 use SMW\PropertyRegistry;
+use Wikibase\DataModel\Services\Lookup\LegacyAdapterItemLookup;
+use Wikibase\DataModel\Services\Lookup\LegacyAdapterPropertyLookup;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\Repo\WikibaseRepo;
 
@@ -36,10 +38,11 @@ class SemanticWikibase {
 	}
 
 	public function getSemanticDataUpdate(): SemanticDataUpdate {
+		$entityLookup = WikibaseRepo::getEntityLookup();
 		return new SemanticDataUpdate(
 			$this->getTranslatorFactory(),
-			$this->getWikibaseRepo()->getItemLookup(),
-			$this->getWikibaseRepo()->getPropertyLookup()
+			new LegacyAdapterItemLookup( $entityLookup ),
+			new LegacyAdapterPropertyLookup( $entityLookup )
 		);
 	}
 
