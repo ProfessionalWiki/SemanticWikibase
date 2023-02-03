@@ -215,7 +215,7 @@ Properties:
 * (Multilingual) descriptions of Wikibase properties on SMW property pages
 * Grouping of Wikibase properties on Special:Browse
 
-[Professional.Wiki] provides commercial [MediaWiki development] and [managed wiki hosting].
+[Professional.Wiki] provides commercial [MediaWiki development], [Wikibase development], and [managed wiki hosting].
 
 ## Release notes
 
@@ -227,7 +227,7 @@ Released on September 3, 2020
 
 [Professional.Wiki]: https://professional.wiki
 [Semantic MediaWiki]: https://www.semantic-mediawiki.org
-[Wikibase]: https://wikiba.se
+[Wikibase]: https://wikibase.consulting/what-is-wikibase/
 [MediaWiki]: https://www.mediawiki.org
 [PHP]: https://www.php.net
 [Wikibase Items and properties]: https://www.mediawiki.org/wiki/Wikibase/DataModel
@@ -237,4 +237,5 @@ Released on September 3, 2020
 [Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
 [LocalSettings.php]: https://www.mediawiki.org/wiki/Manual:LocalSettings.php
 [MediaWiki development]: https://professional.wiki/en/mediawiki-development
+[Wikibase development]: https://professional.wiki/en/wikibase-software-development
 [managed wiki hosting]: https://professional.wiki/en/hosting
