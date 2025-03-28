@@ -12,7 +12,7 @@
 		"semantic web",
 		"wikidata"
 	],
-	"homepage": "https://github.com/ProfessionalWiki/SemanticWikibase",
+	"homepage": "https://professional.wiki/en/extension/semantic-wikibase",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
@@ -29,7 +29,8 @@
 		}
 	],
 	"support": {
-		"source": "https://github.com/ProfessionalWiki/SemanticWikibase/issues"
+		"issues": "https://github.com/ProfessionalWiki/SemanticWikibase/issues",
+		"source": "https://github.com/ProfessionalWiki/SemanticWikibase"
 	},
 	"require": {
 		"php": ">=7.4",
