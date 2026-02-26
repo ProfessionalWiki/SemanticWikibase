@@ -73,7 +73,7 @@ class StatementTranslator {
 		$qualifiers = $statement->getQualifiers();
 		$mainSnakDI = $this->snakToDataItem($mainSnak, $statement, $subject);
 		// create a smw semantic subobject for the statement
-		$statementProperty = $mainSnak->getPropertyId()->getLocalPart();
+		$statementProperty = $mainSnak->getPropertyId()->getSerialization();
 		$statementValue = StatementTranslator::valueDIToString($mainSnakDI);
 		
 		$statementObj = new Subobject($subject->getTitle());
@@ -85,7 +85,7 @@ class StatementTranslator {
 		$statementObj->addDataValue( DataValueFactory::getInstance()->newDataValueByText('property_smw', $smwPropertyNamespaceName.":".$statementProperty, false, $subject) );
 		$statementObj->addDataValue( DataValueFactory::getInstance()->newDataValueByText('value', $statementValue, false, $subject) );
 		$statementObj->addDataValue( DataValueFactory::getInstance()->newDataValueByText($statementProperty, $statementValue, false, $subject) );
-		#$prop =  DIProperty::newFromUserLabel($mainSnak->getPropertyId()->getLocalPart());
+		
 		$prop =  new DIProperty( 'semanticProperty:value');
 		wfDebug('swb: prop: '.$prop);
 		$propertyDV = DataValueFactory::getInstance()->newPropertyValueByLabel("value");
@@ -95,7 +95,7 @@ class StatementTranslator {
 		$qNr = 1;
 		$statementPage = $subject->getTitle()."#statement".$statementNr;
 		foreach( $qualifiers as $actQualifier){
-			$qualifierProperty = $actQualifier->getPropertyId()->getLocalPart();
+			$qualifierProperty = $actQualifier->getPropertyId()->getSerialization();
 			$qualifierId = "statement".$statementNr."-qualifier".$qNr;
 			$qualifierObj = new Subobject($subject->getTitle());
 			$qualifierObj->setEmptyContainerForId($qualifierId);
