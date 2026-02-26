@@ -2,8 +2,8 @@
 
 MediaWiki extension that makes [Wikibase] data available in [Semantic MediaWiki].
 
-Semantic Wikibase was created by [Professional.Wiki] with help from
-[Frans AL van der Horst](https://www.linkedin.com/in/frans-a-l-van-der-horst-95a3836/).
+Semantic Wikibase was created by [Wikibase developers](https://professional.wiki/en/wikibase-software-development) at [Professional Wiki](https://professional.wiki/) 
+with help from [Frans AL van der Horst](https://www.linkedin.com/in/frans-a-l-van-der-horst-95a3836/).
 
 ## Demo
 

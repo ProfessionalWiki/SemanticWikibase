@@ -29,7 +29,8 @@
 		}
 	],
 	"support": {
-		"source": "https://github.com/ProfessionalWiki/SemanticWikibase/issues"
+		"issues": "https://github.com/ProfessionalWiki/SemanticWikibase/issues",
+		"source": "https://github.com/ProfessionalWiki/SemanticWikibase"
 	},
 	"require": {
 		"php": ">=7.4",
