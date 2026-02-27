@@ -65,7 +65,6 @@ class DataValueTranslator {
 		}
 		
 		if ( $value instanceof TimeValue ) {
-			wfDebug( 'swb: translate time: '. $$value.toString()   );
 			return $this->translateTimeValue( $value );
 		}
 		
