@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticProperty;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 use Wikibase\DataModel\Services\Lookup\TermLookup;
 use Wikibase\Lib\Store\PropertyInfoLookup;
 use Wikibase\Lib\Store\StorageException;
@@ -40,10 +40,12 @@ class UserDefinedProperties {
 					$this->propertyTypeTranslator->translate( $propertyInfo['type'] ),
 					$id,
 					$this->termLookup->getLabel(
-						new PropertyId( $id ),
+						new NumericPropertyId( $id ),
 						$this->labelLanguageCode
 					)
 				);
+			}else{
+				wfDebug("swb: cannot translate ".$propertyInfo['type']);
 			}
 		}
 
@@ -59,11 +61,11 @@ class UserDefinedProperties {
 		}
 	}
 
-	private static function idFromWikibaseString( string $propertyId ): string {
-		return  '___SWB_' . $propertyId;
+	private static function idFromWikibaseString( string $NumericPropertyId ): string {
+		return  '___SWB_' . $NumericPropertyId;
 	}
 
-	public static function idFromWikibaseProperty( PropertyId $id ): string {
+	public static function idFromWikibaseProperty( NumericPropertyId $id ): string {
 		return self::idFromWikibaseString( $id->getSerialization() );
 	}
 

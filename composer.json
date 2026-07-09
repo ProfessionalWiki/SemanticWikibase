@@ -1,5 +1,5 @@
 {
-	"name": "professional-wiki/semantic-wikibase",
+	"name": "baillyk/semantic-wikibase",
 	"type": "mediawiki-extension",
 	"description": "MediaWiki extension that makes Wikibase data available in Semantic MediaWiki",
 	"keywords": [
@@ -12,7 +12,7 @@
 		"semantic web",
 		"wikidata"
 	],
-	"homepage": "https://professional.wiki/en/extension/semantic-wikibase",
+	"homepage": "https://github.com/baillyk/SemanticWikibase",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{

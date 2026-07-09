@@ -38,10 +38,12 @@ class PropertyTypeTranslator {
 			'tabular-data' => null, // TODO
 			'entity-schema' => null, // TODO
 			'time' => SMWTimeValue::TYPE_ID,
+			'edtf' => SMWTimeValue::TYPE_ID,
 			'url' => '_uri',
 			'external-id' => ExternalIdentifierValue::TYPE_ID,
 			'wikibase-item' => '_wpg',
 			'wikibase-property' => '_wpg',
+			'localMedia' => '_wpg'
 		];
 
 		if ( class_exists( CoordinateValue::class ) ) {

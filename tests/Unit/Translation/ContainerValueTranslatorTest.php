@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
 use SMWDIContainer;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
@@ -32,7 +32,7 @@ class ContainerValueTranslatorTest extends TestCase {
 		$container = $this->translate(
 			new Statement(
 				new PropertyValueSnak(
-					new PropertyId( 'P1' ),
+					new NumericPropertyId( 'P1' ),
 					new QuantityValue(
 						new DecimalValue( 42 ),
 						'mega awesome',
@@ -70,7 +70,7 @@ class ContainerValueTranslatorTest extends TestCase {
 		$container = $this->translate(
 			new Statement(
 				new PropertyValueSnak(
-					new PropertyId( 'P1' ),
+					new NumericPropertyId( 'P1' ),
 					new UnboundedQuantityValue(
 						new DecimalValue( 42 ),
 						'mega awesome'
@@ -111,7 +111,7 @@ class ContainerValueTranslatorTest extends TestCase {
 		$this->assertTrue( $this->newTranslator()->supportsStatement(
 			new Statement(
 				new PropertyValueSnak(
-					new PropertyId( 'P1' ),
+					new NumericPropertyId( 'P1' ),
 					new UnboundedQuantityValue(
 						new DecimalValue( 42 ),
 						'mega awesome'
@@ -125,7 +125,7 @@ class ContainerValueTranslatorTest extends TestCase {
 		$this->assertFalse( $this->newTranslator()->supportsStatement(
 			new Statement(
 				new PropertySomeValueSnak(
-					new PropertyId( 'P1' )
+					new NumericPropertyId( 'P1' )
 				)
 			)
 		) );
@@ -135,7 +135,7 @@ class ContainerValueTranslatorTest extends TestCase {
 		$this->assertFalse( $this->newTranslator()->supportsStatement(
 			new Statement(
 				new PropertyValueSnak(
-					new PropertyId( 'P1' ),
+					new NumericPropertyId( 'P1' ),
 					new BooleanValue( true )
 				)
 			)

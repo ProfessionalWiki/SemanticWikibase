@@ -38,9 +38,11 @@
 	"callback": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onExtensionRegistration",
 
 	"Hooks": {
+		"ParserFirstCallInit":"MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onParserFirstCallInit",
 		"SMW::Property::initProperties": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwInitProperties",
 		"SMW::SQLStore::AddCustomFixedPropertyTables": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwAddCustomFixedPropertyTables",
-		"SMWStore::updateDataBefore": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwUpdateDataBefore"
+		"SMW::SQLStore::BeforeDataUpdateComplete": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onSmwUpdateDataBefore",
+		"MultiContentSave": "MediaWiki\\Extension\\SemanticWikibase\\EntryPoints\\HookHandlers::onMultiContentSave"
 	},
 
 	"config": {
