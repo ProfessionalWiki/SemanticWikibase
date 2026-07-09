@@ -10,7 +10,7 @@ use MediaWiki\Extension\SemanticWikibase\Translation\ItemTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\MonoTextTranslator;
 use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
 use SMW\DIWikiPage;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 use Wikibase\DataModel\Services\Lookup\InMemoryDataTypeLookup;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 
@@ -36,7 +36,7 @@ class TestFactory extends SemanticWikibase {
 	private function newPropertyTypeLookup(): InMemoryDataTypeLookup {
 		$lookup = new InMemoryDataTypeLookup();
 
-		$lookup->setDataTypeForProperty( new PropertyId( 'P1' ), 'string' );
+		$lookup->setDataTypeForProperty( new NumericPropertyId( 'P1' ), 'string' );
 
 		return $lookup;
 	}

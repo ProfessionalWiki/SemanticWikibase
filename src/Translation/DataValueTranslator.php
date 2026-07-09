@@ -19,14 +19,33 @@ use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
+use Wikibase\EDTF\Services\TimeValueBuilder;
+use Wikibase\EDTF\EdtfValue;
+use MediaWiki\Logger\LoggerFactory;
+use EDTF\EdtfFactory;
+use EDTF\Model\ExtDate;
+use EDTF\Model\ExtDateTime;
+use EDTF\Model\Interval;
 
 class DataValueTranslator {
 
 	public function translate( TypedDataValue $typedValue ): SMWDataItem {
+		
+		
 		$value = $typedValue->getValue();
-
+		$propertyType = $typedValue->getPropertyType();
+		if( $value != null) {
+			wfDebug( 'swb: translate: '.get_class( $value ).' ptype: '.$propertyType );
+		}
+		
 		if ( $value instanceof StringValue ) {
+			wfDebug( 'swb: translate: '. $typedValue->getValue()->getValue()  );
+			if( $propertyType == 'edtf') {
+				return $this->translateEDTF("".$value->getValue());
+			}else if ($propertyType == 'localMedia') {
+                return $this->translateLocalMedia("".$value->getValue());
+            }
 			return $this->translateStringValue( $typedValue );
 		}
 		if ( $value instanceof BooleanValue ) {
@@ -44,10 +63,13 @@ class DataValueTranslator {
 		if ( $value instanceof GlobeCoordinateValue ) {
 			return $this->translateGlobeCoordinateValue( $value );
 		}
+		
 		if ( $value instanceof TimeValue ) {
+			wfDebug( 'swb: translate time: '. $$value.toString()   );
 			return $this->translateTimeValue( $value );
 		}
-
+		
+        
 		throw new \RuntimeException( 'Support for DataValue type "' . get_class( $value ) . '" not implemented' );
 	}
 
@@ -66,6 +88,12 @@ class DataValueTranslator {
 		);
 	}
 
+	private function translateLocalMedia( String $imagePage): SMWDataItem {
+			return new DIWikiPage(
+					$imagePage,
+					NS_FILE
+			);
+	}
 	private function translateEntityIdValue( EntityIdValue $idValue ): SMWDataItem {
 		return new DIWikiPage(
 			$idValue->getEntityId()->getSerialization(),
@@ -78,7 +106,7 @@ class DataValueTranslator {
 			return WB_NS_ITEM;
 		}
 
-		if ( $idValue instanceof PropertyId ) {
+		if ( $idValue instanceof NumericPropertyId ) {
 			return WB_NS_PROPERTY;
 		}
 
@@ -87,6 +115,59 @@ class DataValueTranslator {
 
 	public function translateDecimalValue( DecimalValue $value ): SMWDataItem {
 		return new \SMWDINumber( $value->getValueFloat() );
+	}
+
+	private function translateEDTF( String $value ): \SMWDITime {
+		wfDebug( 'swb: translate edtf' );
+		$tvb = new TimeValueBuilder( EdtfFactory::newParser() );
+		$tvArr = $tvb->edtfToTimeValues( $value );
+		$parser = \EDTF\EdtfFactory::newParser();
+		$parsingResult = $parser->parse($value);
+		wfDebug($parsingResult->isValid()); // true
+		$edtfValue = $parsingResult->getEdtfValue(); // \EDTF\EdtfValue
+		$humanizer = \EDTF\EdtfFactory::newHumanizerForLanguage( 'en' );
+		wfDebug($humanizer->humanize($edtfValue)); // string
+		wfDebug(get_class($edtfValue)); // string
+		$result = null;
+
+		if ( $edtfValue instanceof Interval ) {
+			if($edtfValue->hasStartDate()){
+				$edtfValue = $edtfValue->getStartDate();
+			} else if ($edtfValue->hasEndDate()){
+				$edtfValue = $edtfValue->getEndDate();
+			} else {
+				wfDebug('ERROR: unable to translate empty edtf interval to smw date');
+				return null;
+			}
+		}
+
+		if( $edtfValue instanceof ExtDate ) {
+			$result = new \SMWDITime(
+				SMWDITime::CM_GREGORIAN,
+				$edtfValue->getYear(),
+				$edtfValue->getMonth(),
+				$edtfValue->getDay()
+			);
+
+		} else if ( $edtfValue instanceof ExtDateTime ) {
+			$result = new \SMWDITime(
+				SMWDITime::CM_GREGORIAN,
+				$edtfValue->getYear(),
+				$edtfValue->getMonth(),
+				$edtfValue->getDay(),
+				$edtfValue->getHour(),
+				$edtfValue->getMinute(),
+				$edtfValue->getSecond()
+			);
+		} else {
+		$result = new \SMWDITime(
+				SMWDITime::CM_GREGORIAN,
+				1970
+			);
+				
+		}
+	
+		return $result;
 	}
 
 	private function translateTimeValue( TimeValue $value ): \SMWDITime {

@@ -11,7 +11,7 @@ use MediaWiki\Extension\SemanticWikibase\Tests\TestFactory;
 use MediaWiki\Extension\SemanticWikibase\Translation\FixedProperties;
 use SMW\DIWikiPage;
 use Wikibase\DataModel\Entity\Property;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 
 /**
  * @covers \MediaWiki\Extension\SemanticWikibase\Translation\PropertyTranslator
@@ -30,7 +30,7 @@ class PropertyTranslatorTest extends SWBTestCase {
 
 	private function newProperty(): Property {
 		return new Property(
-			new PropertyId( self::ID ),
+			new NumericPropertyId( self::ID ),
 			null,
 			self::TYPE
 		);

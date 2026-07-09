@@ -17,7 +17,7 @@ use SMW\DIWikiPage;
 use SMWDIContainer;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
@@ -54,7 +54,7 @@ class ItemTranslatorTest extends SWBTestCase {
 	public function testStatementMainSnakValueIsTranslated() {
 		$item = new Item( new ItemId( 'Q1' ) );
 		$item->getStatements()->addNewStatement( new PropertyValueSnak(
-			new PropertyId( 'P1' ),
+			new NumericPropertyId( 'P1' ),
 			new StringValue( 'Hello there' )
 		) );
 
@@ -68,12 +68,12 @@ class ItemTranslatorTest extends SWBTestCase {
 		$item = new Item( new ItemId( 'Q1' ) );
 
 		$item->getStatements()->addNewStatement( new PropertyValueSnak(
-			new PropertyId( 'P1' ),
+			new NumericPropertyId( 'P1' ),
 			new StringValue( 'Hello there' )
 		) );
 
 		$item->getStatements()->addNewStatement( new PropertyValueSnak(
-			new PropertyId( 'P1' ),
+			new NumericPropertyId( 'P1' ),
 			new StringValue( 'fellow sentient' )
 		) );
 
@@ -89,8 +89,8 @@ class ItemTranslatorTest extends SWBTestCase {
 	public function testOnlyPropertyValueSnaksGetAdded() {
 		$item = new Item( new ItemId( 'Q1' ) );
 
-		$item->getStatements()->addNewStatement( new PropertyNoValueSnak( new PropertyId( 'P1' ) ) );
-		$item->getStatements()->addNewStatement( new PropertySomeValueSnak( new PropertyId( 'P1' ) ) );
+		$item->getStatements()->addNewStatement( new PropertyNoValueSnak( new NumericPropertyId( 'P1' ) ) );
+		$item->getStatements()->addNewStatement( new PropertySomeValueSnak( new NumericPropertyId( 'P1' ) ) );
 
 		$this->assertSame(
 			[],
@@ -103,7 +103,7 @@ class ItemTranslatorTest extends SWBTestCase {
 
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak(
-				new PropertyId( 'P1' ),
+				new NumericPropertyId( 'P1' ),
 				new UnboundedQuantityValue(
 					new DecimalValue( 42 ),
 					'mega awesome'
@@ -135,7 +135,7 @@ class ItemTranslatorTest extends SWBTestCase {
 		);
 	}
 
-	private function assertHasSubobjectWithPropertyValue( SemanticEntity $semanticEntity, string $propertyId, \SMWDataItem $expectedDataItem ) {
+	private function assertHasSubobjectWithPropertyValue( SemanticEntity $semanticEntity, string $NumericPropertyId, \SMWDataItem $expectedDataItem ) {
 		/**
 		 * @var SMWDIContainer $container
 		 */
@@ -143,7 +143,7 @@ class ItemTranslatorTest extends SWBTestCase {
 
 		$this->assertEquals(
 			[ $expectedDataItem ],
-			$container->getSemanticData()->getPropertyValues( new DIProperty( $propertyId ) )
+			$container->getSemanticData()->getPropertyValues( new DIProperty( $NumericPropertyId ) )
 		);
 	}
 

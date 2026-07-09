@@ -6,7 +6,7 @@ namespace MediaWiki\Extension\SemanticWikibase\Translation;
 
 use MediaWiki\Extension\SemanticWikibase\SMW\SemanticEntity;
 use Wikibase\DataModel\Entity\Property;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 
 class PropertyTranslator {
 
@@ -18,10 +18,10 @@ class PropertyTranslator {
 		$this->statementListTranslator = $statementListTranslator;
 	}
 
-	public function translateProperty( Property $property ): SemanticEntity {
+	public function translateProperty( ?Property $property ): SemanticEntity {
 		$semanticEntity = new SemanticEntity();
 
-		if ( $property->getId() === null ) {
+		if ( $property === null || $property->getId() === null ) {
 			return $semanticEntity;
 		}
 
@@ -32,7 +32,7 @@ class PropertyTranslator {
 		return $semanticEntity;
 	}
 
-	private function addId( SemanticEntity $semanticEntity, PropertyId $itemId ): void {
+	private function addId( SemanticEntity $semanticEntity, NumericPropertyId $itemId ): void {
 		$semanticEntity->addPropertyValue(
 			FixedProperties::ID,
 			new \SMWDIBlob( $itemId->getSerialization() )

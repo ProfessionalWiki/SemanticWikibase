@@ -20,7 +20,7 @@ use SMWDIGeoCoord;
 use SMWDIUri;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 
 /**
  * @covers \MediaWiki\Extension\SemanticWikibase\Translation\DataValueTranslator
@@ -70,7 +70,7 @@ class DataValueTranslatorTest extends TestCase {
 
 		$this->assertEquals(
 			new DIWikiPage( 'P42', WB_NS_PROPERTY ),
-			$this->translate( new EntityIdValue( new PropertyId( 'P42' ) ) )
+			$this->translate( new EntityIdValue( new NumericPropertyId( 'P42' ) ) )
 		);
 	}
 

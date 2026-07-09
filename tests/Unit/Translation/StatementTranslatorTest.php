@@ -13,7 +13,7 @@ use MediaWiki\Extension\SemanticWikibase\Translation\StatementTranslator;
 use PHPUnit\Framework\TestCase;
 use SMW\DIProperty;
 use SMW\DIWikiPage;
-use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Entity\NumericPropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
 
@@ -32,7 +32,7 @@ class StatementTranslatorTest extends TestCase {
 			$this->newTranslator()->statementToDataItem(
 				new Statement(
 					new PropertyValueSnak(
-						new PropertyId( 'P1' ),
+						new NumericPropertyId( 'P1' ),
 						new StringValue( 'Kittens' )
 					)
 				),
@@ -45,7 +45,7 @@ class StatementTranslatorTest extends TestCase {
 		$container = $this->newTranslator()->statementToDataItem(
 			new Statement(
 				new PropertyValueSnak(
-					new PropertyId( 'P1' ),
+					new NumericPropertyId( 'P1' ),
 					new UnboundedQuantityValue(
 						new DecimalValue( 42 ),
 						'mega awesome'

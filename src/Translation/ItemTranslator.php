@@ -18,10 +18,10 @@ class ItemTranslator {
 		$this->statementListTranslator = $statementListTranslator;
 	}
 
-	public function translateItem( Item $item ): SemanticEntity {
+	public function translateItem( ?Item $item ): SemanticEntity {
 		$semanticEntity = new SemanticEntity();
 
-		if ( $item->getId() === null ) {
+		if ( $item === null || $item->getId() === null ) {
 			return $semanticEntity;
 		}
 
